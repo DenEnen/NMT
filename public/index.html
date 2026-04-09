@@ -1773,10 +1773,17 @@
                 ...tagSubj(group.subj2 && group.subj2.questions, group.subj2 && group.subj2.subj),
                 ...tagSubj(group.subj3 && group.subj3.questions, group.subj3 && group.subj3.subj),
             ];
-			(group.electiveOptions || []).forEach(function (opt) {
-                // Pass variant ID so slides/btns can be filtered to show only the chosen elective.
-                qData = qData.concat(tagSubj(opt.questions, opt.subj, opt.id));
+            // Track fixed subject variant IDs to avoid double-adding them as electives
+            var _fixedIds = new Set([
+                group.subj1 && group.subj1.id,
+                group.subj2 && group.subj2.id,
+                group.subj3 && group.subj3.id,
+            ].filter(Boolean));
+            (group.electiveOptions || []).forEach(function (opt) {
+                if (_fixedIds.has(opt.id)) return; // skip — already added as fixed subject
+                qData = qData.concat(tagSubj(opt.questions, opt.subj));
             });
+			
             if (group.name) document.title = group.name;
 
             if (loadingEl) loadingEl.style.display = 'none';
@@ -2055,7 +2062,7 @@
                 if (q.type === 'cloze') {
                     let childIds = q.subIds || [q.id];
                     let idsStr = childIds.map(id => `'${id}'`).join(',');
-                    contentHtml += `<button class="btn-save" id="btn-save-${q.id}" onclick="window.saveClozeGroup([${idsStr}])">Зберегти відповіді</button>
+                    contentHtml += `<button class="btn-save" id="btn-save-${q.id}" onclick="window.saveClozeGroup('${q.id}', [${idsStr}])">Зберегти відповіді</button>
                                 <div class="saved-msg" id="msg-save-${q.id}">Відповіді збережено.</div>`;
                 } else {
                     contentHtml += `<button class="btn-save" id="btn-save-${q.id}" onclick="window.saveAnswer('${q.id}')">Зберегти відповідь</button>
@@ -2740,12 +2747,21 @@
                     }
                 });
 
-                let btn = document.getElementById('btn-save-' + groupId);
-                let msg = document.getElementById('msg-save-' + groupId);
-                let navBtn = document.getElementById('nav-btn-' + groupId);
+                // groupId from the DB-embedded onchange is a subId, not the question id.
+                // Find the real question id by walking up to the parent slide.
+                let _realGroupId = groupId;
+                if (!document.getElementById('btn-save-' + groupId)) {
+                    let _anySel = document.getElementById('sel-' + childIds[0]);
+                    let _slide = _anySel && _anySel.closest('.question-slide');
+                    if (_slide) _realGroupId = _slide.id.replace('slide-', '');
+                }
+
+                let btn = document.getElementById('btn-save-' + _realGroupId);
+                let msg = document.getElementById('msg-save-' + _realGroupId);
+                let navBtn = document.getElementById('nav-btn-' + _realGroupId);
 
                 let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
-                let savedGroup = savedData[groupId] || null;
+                let savedGroup = savedData[_realGroupId] || null;
 
                 let isChanged = false;
 
@@ -2800,10 +2816,10 @@
                 if (navBtn) navBtn.classList.add('saved');
             };
 
-            window.saveClozeGroup = function (childIds) {
+            window.saveClozeGroup = function (groupId, childIds) {
                 let allFilled = true;
                 let values = {};
-                let mainId = childIds[0];
+                let mainId = groupId;
 
                 childIds.forEach(id => {
                     let sel = document.getElementById('sel-' + id);
