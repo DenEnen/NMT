@@ -3082,7 +3082,17 @@
                         const selectHtml = '<select class="cloze-select" id="sel-' + subId + '" onchange="window.checkCloze(\'' + subId + '\',' + allIdsStr + ')">' + optsHtml + '</select>';
                         clozeText = clozeText.replace('{txt}', selectHtml);
                     });
-                    const qObj = { id, num: n, type: 'cloze', text: clozeText, subIds };
+                    // Extract inline gap numbers like (17), (18)... from the original text
+                    const _gapNums = (q.Text || '').match(/\((\d+)\)\s*\{txt\}/g);
+                    let _numRange = null;
+                    if (_gapNums && _gapNums.length > 1) {
+                        const _first = _gapNums[0].match(/\((\d+)\)/)[1];
+                        const _last = _gapNums[_gapNums.length - 1].match(/\((\d+)\)/)[1];
+                        _numRange = _first + '-' + _last;
+                    } else if (_gapNums && _gapNums.length === 1) {
+                        _numRange = _gapNums[0].match(/\((\d+)\)/)[1];
+                    }
+                    const qObj = { id, num: _numRange ? parseInt(_numRange.split('-')[0]) : n, numRange: _numRange, type: 'cloze', text: clozeText, subIds };
                     if (imageUrl) qObj.imageUrl = imageUrl;
                     questions.push(qObj);
                     for (const slot of q.AnswerTemplates) {
