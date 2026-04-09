@@ -1,0 +1,3729 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://zno.osvita.ua/doc/i/favicons/apple-touch-icon.png" type="image/png">
+    <title>ПРОБНИЙ НМТ-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        window.MathJax = {
+            options: {
+                enableMenu: false
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+
+    <style>
+        :root {
+            --primary-red: #c61036;
+            --hover-red: #a00d2b;
+            --bg-gray: #f5f5f5;
+            --border-color: #e0e0e0;
+            --text-dark: #333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #fff;
+            color: var(--text-dark);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        @media print {
+            body {
+                display: none !important;
+            }
+        }
+
+        .overlay-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 999999;
+            background: white;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #cheat-warning,
+        #offline-screen {
+            background: rgba(198, 16, 54, 0.98);
+            color: white;
+            display: none;
+        }
+
+        #offline-screen {
+            background: rgba(0, 0, 0, 0.98);
+        }
+
+        .name-input {
+            padding: 15px;
+            font-size: 20px;
+            width: 500px;
+            max-width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .big-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 12px 60px;
+            font-size: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .big-btn:hover {
+            background: var(--hover-red);
+        }
+
+        .auth-box {
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            width: 400px;
+            max-width: 90%;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .auth-input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .auth-input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .auth-input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .auth-error {
+            color: var(--primary-red);
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .prestart-box {
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            width: 800px;
+            max-width: 90%;
+            text-align: left;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .prestart-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .test-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-left: 10px solid var(--primary-red);
+            background: #fafafa;
+        }
+
+        #watermarks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+
+        .wm-text {
+            font-size: 24px;
+            font-weight: bold;
+            transform: rotate(-45deg);
+            padding: 40px;
+            white-space: nowrap;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .header-logo img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        .header-user {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logout-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            z-index: 100;
+        }
+
+        .logout-menu:hover {
+            background: #f5f5f5;
+            color: var(--primary-red);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 20px;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            padding: 15px 5px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .top-nav a.active {
+            color: var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+        }
+
+        .top-nav a:hover:not(.active) {
+            color: var(--primary-red);
+        }
+
+        .info-plashka-container {
+            padding: 20px 40px;
+            background: #fff;
+        }
+
+        .info-plashka {
+            background: var(--bg-gray);
+            border-left: 4px solid var(--primary-red);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #444;
+            max-width: 65%;
+            line-height: 1.5;
+        }
+
+        .hide-link {
+            color: var(--primary-red);
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-finish {
+            background: var(--primary-red);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .timer-display {
+            font-weight: bold;
+            font-size: 16px;
+            width: 65px;
+            text-align: center;
+        }
+
+        .btn-eye {
+            background: var(--primary-red);
+            border: none;
+            color: white;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .main-layout {
+            display: flex;
+            padding: 0 40px 40px 40px;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .left-panel {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .breadcrumbs {
+            padding: 15px 20px;
+            font-size: 13px;
+            color: #888;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .breadcrumbs span.active-bread {
+            color: var(--primary-red);
+        }
+
+        .expand-btn {
+            cursor: pointer;
+            color: #666;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .expand-btn:hover {
+            color: var(--primary-red);
+        }
+
+        .subject-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background: #fafafa;
+        }
+
+        .subject-tabs div {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .subject-tabs div.active {
+            background: #fff;
+            border-bottom: 3px solid var(--primary-red);
+            color: var(--text-dark);
+        }
+
+        .content-area {
+            padding: 30px;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .subject-title {
+            font-size: 24px;
+            margin: 0 0 5px 0;
+            font-weight: 400;
+        }
+
+        .bookmark {
+            color: var(--primary-red);
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .bookmark.saved {
+            color: #888;
+        }
+
+        .instruction-box {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .question-slide {
+            display: none;
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+
+        .question-slide:last-child {
+            border-bottom: none;
+        }
+
+        .question-slide.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .question-number {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .question-text img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .question-text figure {
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .question-text figure img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block;
+        }
+
+        .question-text figcaption {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .answers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .answer-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .answer-item:hover {
+            background: #f0f0f0;
+        }
+
+        .answer-item img,
+        .drag-item img {
+            max-height: 100px;
+            max-width: 100%;
+            display: block;
+            margin: 4px 0;
+            border-radius: 4px;
+        }
+
+        .answer-item input {
+            transform: scale(1.3);
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .marker {
+            font-weight: bold;
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: none !important;
+        }
+
+        .dnd-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: stretch;
+        }
+
+        .dnd-left {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 3;
+        }
+
+        .dnd-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+            background: #eef7f2;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #bce0d1;
+        }
+
+        .drop-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #eef3f7;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #b2cbe0;
+        }
+
+        .drop-text {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .drop-zone {
+            width: 50px;
+            height: 40px;
+            border: 2px dashed #999;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .drop-zone.over {
+            border-color: var(--primary-red);
+            background: #ffe6eb;
+        }
+
+        .drag-item {
+            background: #dcedc8;
+            border: 1px solid #aed581;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: grab;
+            font-weight: 600;
+            text-align: left;
+            user-select: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+            opacity: 0.6;
+        }
+
+        .short-answer-input {
+            display: block;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+            margin-bottom: 15px;
+            resize: none;
+        }
+
+        .btn-save {
+            background: #fff;
+            color: #666;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save.ready {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+
+        .btn-save.saved {
+            background: var(--primary-red);
+            color: #fff;
+            border-color: var(--primary-red);
+        }
+
+        .saved-msg {
+            color: var(--primary-red);
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .nav-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .right-panel {
+            width: 280px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 20px;
+        }
+
+        .grid-title {
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .grid-btn {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .grid-btn:hover {
+            border-color: var(--primary-red);
+        }
+
+        .grid-btn.current {
+            border: 2px solid #333;
+            box-shadow: inset 0 0 0 1px #fff;
+        }
+
+        .grid-btn.saved {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        .grid-btn.saved.current {
+            border: 2px solid #000;
+            opacity: 0.9;
+        }
+
+        #instruction-area {
+            display: none;
+            padding: 40px;
+            background: white;
+            line-height: 1.6;
+            font-size: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #instruction-area h3 {
+            color: var(--primary-red);
+            margin-top: 30px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            z-index: 100000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .finish-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 600px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .unanswered-box {
+            border: 2px solid var(--primary-red);
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .res-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .res-table th,
+        .res-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .res-table th {
+            background: #f9f9f9;
+        }
+
+        .match-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            margin-bottom: 30px;
+        }
+
+        .match-left-col {
+            flex: 2;
+            background: #e0f2f7;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #bce8f1;
+            display: block;
+        }
+
+        .match-right-col {
+            flex: 1;
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #c8e6c9;
+            display: block;
+        }
+
+        .match-row {
+            display: flex;
+            gap: 15px;
+            align-items: stretch;
+            margin-bottom: 25px;
+        }
+
+        .match-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .match-q-block {
+            flex: 1;
+            background: #cce5f5;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #99cbee;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+            word-wrap: break-word;
+            display: block;
+        }
+
+        .match-arrow {
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 20px;
+        }
+
+        .drop-zone {
+            flex: 1;
+            background: white;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            position: relative;
+            min-height: 70px;
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: 0.2s;
+        }
+
+        .drop-zone.over {
+            border-color: var(--primary-red);
+            background: #ffe6eb;
+        }
+
+        .drag-slot {
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .drag-slot:last-child {
+            margin-bottom: 0;
+        }
+
+        .drag-item {
+            background: #a5dfa5;
+            padding: 15px 40px 15px 15px;
+            border-radius: 6px;
+            border: 1px solid #8cc68c;
+            cursor: grab;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            flex-grow: 1;
+            height: auto !important;
+            margin: 0;
+            box-sizing: border-box;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.4;
+            display: block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+            opacity: 0.8;
+            box-shadow: none;
+            transform: scale(0.98);
+        }
+
+        .remove-match-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            color: #333;
+            z-index: 10;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .remove-match-btn:hover {
+            background: #185abc;
+            color: white;
+            border-color: #185abc;
+        }
+
+        .grid-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grid-btn.bookmarked::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            border-width: 0 14px 14px 0;
+            border-style: solid;
+            border-color: transparent var(--primary-red) transparent transparent;
+            z-index: 2;
+        }
+
+        .grid-btn.saved.bookmarked::after {
+            border-color: transparent white transparent transparent;
+        }
+
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input,
+        textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        .subject-tabs div.bookmarked {
+            position: relative;
+        }
+
+        .subject-tabs div.bookmarked::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-top: 15px solid var(--primary-red);
+            border-left: 15px solid transparent;
+            border-top-right-radius: 1px;
+        }
+
+        .cloze-select {
+            font: inherit;
+            padding: 2px 2px 2px 2px;
+            margin: 2px 4px;
+            width: fit-content;
+            border: 1px solid #8c8c8c;
+            border-radius: 6px;
+            background: #fff;
+            color: #222;
+            font-weight: 400;
+            appearance: auto;
+            -webkit-appearance: menulist;
+            -moz-appearance: menulist;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .cloze-select:focus {
+            border-color: #1f6fd6;
+            box-shadow: 0 0 0 1px #1f6fd6;
+        }
+
+        .cloze-select option {
+            font: inherit;
+            color: #222;
+        }
+
+        .save-btn {
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading screen shown while group config is fetched from API -->
+    <div id="loading-screen" class="overlay-screen" style="display:none; background:white; z-index:9999999;">
+        <div style="text-align:center;">
+            <div style="font-size:28px; font-weight:bold; color:var(--primary-red); margin-bottom:20px;">ПРОБНИЙ
+                НМТ-2026</div>
+            <div style="font-size:16px; color:#555; margin-bottom:30px;">Завантаження тесту...</div>
+            <div style="width:50px;height:50px;border:5px solid #eee;border-top-color:var(--primary-red);
+                        border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div>
+            <style>
+                @keyframes spin {
+                    to {
+                        transform: rotate(360deg)
+                    }
+                }
+            </style>
+        </div>
+    </div>
+
+    <div id="screen-login" class="overlay-screen"
+        style="display: none; flex-direction: column; justify-content: center; align-items: center; background: white;">
+
+        <h1
+            style="color:var(--text-dark); font-size: 32px; margin-bottom: 20px; text-align: center; font-weight: bold;">
+            ПРОБНИЙ НАЦІОНАЛЬНИЙ МУЛЬТИПРЕДМЕТНИЙ ТЕСТ — 2026</h1>
+        <p style="font-size: 18px; margin-bottom: 20px; color:#555; text-align: center;">Будь ласка, впишіть своє ПІБ
+            для початку тестування.</p>
+
+        <div id="name-error"
+            style="color: var(--primary-red); font-size: 15px; margin-bottom: 10px; display: none; font-weight: bold;">
+        </div>
+
+        <input type="text" id="student-name" class="name-input" placeholder="Освітній Владислав Олексійович"
+            autocomplete="off" style="margin-bottom: 20px;">
+
+        <div
+            style="margin-bottom: 25px; display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #555; max-width: 500px; text-align: left;">
+            <input type="checkbox" id="agree-terms" style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;"
+                onchange="let btn = document.getElementById('btn-to-prestart'); if(this.checked){ btn.disabled=false; btn.style.opacity='1'; btn.style.pointerEvents='auto'; } else { btn.disabled=true; btn.style.opacity='0.5'; btn.style.pointerEvents='none'; }">
+            <label for="agree-terms" style="cursor: pointer; line-height: 1.4;">
+                Я ознайомився(лася) та погоджуюся з <span style="color: var(--primary-red); text-decoration: underline;"
+                    onclick="document.getElementById('terms-modal').style.display='flex'; event.preventDefault();">Угодою
+                    користувача та Політикою конфіденційності</span>
+            </label>
+        </div>
+
+        <div onclick="if(!document.getElementById('agree-terms').checked) alert('Будь ласка, ознайомтеся з умовами (натисніть на червоний колір тексту) та поставте відмітку про згоду.');"
+            style="display: inline-block; cursor: not-allowed;">
+
+            <button id="btn-to-prestart" class="big-btn"
+                style="padding: 12px 60px; font-size: 20px; opacity: 0.5; pointer-events: none;"
+                disabled>Підтвердити</button>
+
+        </div>
+        <p style="position: absolute; bottom: 20px; font-size: 11px; color:#888; text-align: center; width: 100%;">©
+            Освіта.ua, 2026.<br>Сервіс є об'єктом інтелектуальної власності. Копіювання, відтворення або використання
+            елементів сервісу без попереднього дозволу заборонено.</p>
+    </div>
+
+    <div id="rules-screen" style="display: none; background: white;">
+
+        <div class="header"
+            style="border-bottom: 2px solid #e0e0e0; background: white; position: relative; z-index: 9999;">
+
+            <div class="header-logo" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://zno.osvita.ua/doc/i/favicons/apple-touch-icon.png"
+                    alt="Симуляція НМТ-2026 від сайту Освіта.ua" style="height: 35px;">
+                Симуляція НМТ-2026 від сайту Освіта.ua
+            </div>
+
+            <div class="header-user"
+                style="position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px;"
+                onclick="let m = document.getElementById('rules-logout-menu'); m.style.display = m.style.display === 'block' ? 'none' : 'block';">
+
+                <span id="rules-user-name"></span> ▼
+
+                <div id="rules-logout-menu" class="logout-menu"
+                    style="display: none; position: absolute; top: 100%; right: 0; margin-top: 10px; z-index: 100;"
+                    onmouseover="this.style.color='var(--primary-red)'; this.style.background='#f5f5f5';"
+                    onmouseout="this.style.color='#333'; this.style.background='white';"
+                    onclick="window.userLogout(); event.stopPropagation();">
+                    Вийти
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            style="max-width: 80%; margin: 40px auto; background: white; padding: 40px 50px; border-radius: 4px; border: 1px solid #dcdcdc; position: relative; z-index: 9999;">
+            <p style="text-align: center;">Шановний учаснику / Шановна учаснице!</p>
+            <p>Ви увійшли на персональну сторінку. <b>Перевірте</b>, будь ласка, чи зазначені в правому верхньому куті
+                прізвище, ім'я, по батькові (за наявності) збігаються з Вашими. Якщо ні ‒ повідомте про це старшого
+                інструктора.</p>
+            <p>Ознайомтеся з інформацією щодо особливостей проходження національного мультипредметного тесту (НМТ), а
+                також з інструкцією щодо роботи в сервісі НМТ.</p>
+            <p>У тимчасовому екзаменаційному центрі (ТЕЦ) Ви маєте дотримуватися вимог щодо процедури проходження НМТ та
+                виконувати вказівки працівників.</p>
+            <p>Протягом часу, відведеного на тестування, <b>Вам заборонено</b>:<br>заважати іншим
+                учасникам;<br>спілкуватися в будь-якій формі з іншим учасником;<br>мати при собі або на своєму робочому
+                місці засоби зв'язку, пристрої зчитування, обробки, збереження та відтворення інформації, а також окремі
+                елементи, які можуть бути складовими частинами відповідних технічних засобів чи пристроїв, друковані або
+                рукописні матеріали, інші засоби, предмети, прилади, що не передбачені процедурою НМТ (крім дозволених
+                виробів медичного призначення, про наявність яких учасник повинен повідомити старшого інструктора до
+                початку виконання роботи);<br>користуватися ресурсами мережі Інтернет, що не передбачені процедурою НМТ.
+            </p>
+            <p>Пам'ятайте, що в разі невиконання цих вимог Вас буде позбавлено права продовжувати роботу над тестом, а
+                Ваші результати анулюють.</p>
+            <p>Якщо Ви забули вимкнути мобільний телефон чи залишити його або заборонені предмети в спеціально
+                відведеному місці, не склали особистих речей (документів, засобів зв'язку) компактно, щоб мати змогу за
+                потреби швидко їх забрати, пропонуємо зробити це зараз.</p>
+            <p>У разі оголошення повітряної тривоги Вас буде повідомлено про це, а роботу над тестом заблоковано. Ви
+                матимете чітко дотримуватися вказівок старшого інструктора.</p>
+            <p>Якщо під час тестування Вам потрібно буде вийти з аудиторії, піднесіть руку й попередьте про це старшого
+                інструктора. <b>Зауважте</b>: відлік часу не буде зупинено. Перед виходом залиште на робочому місці
+                чернетку.</p>
+            <p>Також повідомте старшому інструктору, якщо у Вас погіршився стан здоров'я, виникли проблеми з
+                інтернет-з'єднанням, маєте запитання, що не стосуються змісту завдань, або потрібен додатковий аркуш
+                паперу для чернетки.</p>
+            <p>Якщо Ви не зможете завершити виконання тестових завдань через виникнення проблем у роботі сервісу НМТ
+                та/або дочасне припинення проведення НМТ в аудиторії або в ТЕЦ, Вам буде надано можливість пройти тест
+                під час додаткових сесій. Для цього потрібно подати до відповідного регіонального центру оцінювання
+                якості освіти заяву щодо надання можливості пройти НМТ під час додаткових сесій. Таку заяву можна подати
+                сьогодні до моменту виходу з ТЕЦ через відповідального за ТЕЦ або протягом трьох робочих днів з
+                урахуванням сьогоднішньої дати за допомогою поштового зв'язку (ураховуючи час, необхідний на її доставку
+                до регіонального центру оцінювання якості освіти) або електронною поштою.</p>
+            <p>Якщо Ви вважатимете, що під час тестування було допущено порушення процедури проведення НМТ ― до виходу з
+                ТЕЦ подайте відповідальному за ТЕЦ апеляційну заяву щодо порушення процедури проведення тестування.</p>
+            <p><b>Увага!</b> НМТ проходитиме у <b>два етапи</b>. Під час першого етапу тестування передбачено виконання
+                завдань з української мови та математики, під час другого – з історії України й навчального предмета на
+                вибір, який Ви вказали під час реєстрації для участі в НМТ. На кожний етап тестування відведено по 120
+                хвилин. Між ними передбачено перерву тривалістю 20 хвилин, під час якої Ви можете вийти з аудиторії й за
+                вказівниками пройти до спеціального приміщення для перебування під час перерви або залишитися в ній.
+                Виходити за межі ТЕЦ заборонено.</p>
+            <p><b>Наголошуємо</b>: Ви маєте своєчасно повернутися до аудиторії для проходження другого етапу тестування.
+                Час його початку повідомить старший інструктор.</p>
+            <p>Після завершення виконання завдань другого етапу тестування Ви маєте підійти до старшого інструктора й
+                поставити підпис в Аудиторному протоколі, після чого зможете вийти з аудиторії та ТЕЦ.</p>
+
+            <h3 style="text-align: center; margin-top: 25px; margin-bottom: 15px; font-weight: bold;">Інструкція щодо
+                роботи в сервісі НМТ</h3>
+
+            <p>Під час кожного етапу тестування Ви можете самостійно розподіляти час між предметами. Після натискання на
+                кнопку «Розпочати роботу над тестом» та введення коду доступу, який повідомить старший інструктор, у
+                правому верхньому куті екрана з'явиться таймер відліку часу, який показуватиме, скільки часу залишилося
+                до завершення виконання завдань відповідного етапу тестування. Розпочати роботу над тестом Ви можете з
+                будь-якого предмета певного етапу тестування. Повернутися до виконання завдань з окремого предмета й
+                надати та зберегти відповіді можна протягом усього часу, відведеного на виконання завдань певного етапу
+                тестування. Переходячи від одного предмета до іншого, уважно читайте спливні повідомлення щодо кількості
+                наданих Вами відповідей. Після завершення першого етапу тестування повернутися до виконання завдань з
+                його предметів буде неможливо. Для зарахування відповіді на завдання Ви маєте натиснути на кнопку
+                «Зберегти відповідь». Для виправлення відповіді Ви можете вибрати інший варіант і повторно натиснути на
+                кнопку «Зберегти відповідь» ― у такому разі буде зараховано останню збережену Вами відповідь. На боковій
+                панелі, розташованій у верхньому правому куті екрана, відображатимуться опрацьовані Вами завдання.</p>
+            <p><b>Увага!</b> Якщо Ви не збережете відповіді, її не буде зараховано під час визначення результату.</p>
+            <p>Уважно читайте завдання й правила їх виконання, зазначені перед завданнями кожної нової форми.
+                Відповідайте лише після того, як уважно прочитали та зрозуміли завдання. За потреби використовуйте аркуш
+                паперу, наданий Вам інструктором, як чернетку.</p>
+            <p>За потреби Ви можете користуватися довідковими матеріалами, що містяться у вкладці «Довідкові матеріали».
+            </p>
+            <p>Якщо Ви дочасно завершите роботу над завданнями й збережете надані відповіді ‒ можете завершити
+                відповідний етап тестування, натиснувши на кнопку «Завершити роботу над тестом». <b>Будьте уважні</b>:
+                на екрані з'явиться напис з інформацією про те, на які завдання з кожного навчального предмета Ви не
+                надали та/або не зберегли відповідей. Ви можете повернутися до них, надати й зберегти відповіді.</p>
+            <p>Після натискання на кнопку «Завершити роботу над тестом» буде зараховано тільки збережені відповіді,
+                повернутися до завдань буде неможливо.</p>
+            <p>Після завершення першого етапу тестування Ви отримаєте інформацію про кількість наданих і збережених Вами
+                відповідей. Дізнатися про те, який тестовий бал з кожного предмета НМТ Ви отримали, можна лише після
+                завершення роботи над завданнями другого етапу НМТ.</p>
+            <p>Зичимо успіху!</p>
+
+
+            <div style="text-align: right; margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px;">
+                <button type="button" class="nav-btn"
+                    style="background: var(--primary-red); color: white; border: none; padding: 12px 25px; font-size: 16px; cursor: pointer; border-radius: 4px; transition: 0.2s; font-weight: bold;"
+                    onmouseover="this.style.background='var(--hover-red)'"
+                    onmouseout="this.style.background='var(--primary-red)'" onclick="openRulesModal()">Я погоджуюсь з
+                    правилами тесту</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-prestart" class="overlay-screen" style="display: none;">
+        <div class="prestart-box">
+            <div class="prestart-header">Вступні випробування</div>
+            <div class="test-row">
+                <div id="nmt-date-display" style="font-size: 18px; font-weight: bold; color: #333;">НМТ, ... РОКУ, ЧАС
+                    ПОЧАТКУ: ...</div>
+                <button id="btn-to-rules" class="big-btn">ПЕРЕЙТИ ДО ТЕСТУ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-subject-selection" class="overlay-screen" style="display: none;">
+        <div class="prestart-box"
+            style="background: #fff; border-color: var(--border-color); width: 450px; padding: 20px 30px; margin: 0 auto;">
+            <div class="prestart-header" style="margin-top:0; margin-bottom: 15px; font-size: 18px;">Вибір 4-го предмета
+            </div>
+            <p style="line-height: 1.4; font-size: 14px; margin-bottom: 15px;">
+                Вкажіть <b>один</b> навчальний предмет, який Ви бажаєте складати як предмет за вибором.
+            </p>
+
+            <div class="answers-list" style="margin-bottom: 20px; font-weight: 600; gap: 10px; font-size: 15px;">
+                <!-- Populated dynamically by buildElectiveOptions() from GROUP.electiveOptions -->
+            </div>
+
+            <div id="subject-error"
+                style="color: var(--primary-red); font-size: 14px; margin-bottom: 15px; display: none; font-weight: bold;">
+                Оберіть предмет для продовження!</div>
+
+            <button id="btn-final-start" class="big-btn"
+                style="width: 100%; padding: 10px; font-size: 16px;">Підтвердити</button>
+        </div>
+    </div>
+
+    <div id="screen-rules" class="overlay-screen" style="display: none;">
+        <div class="prestart-box" style="background: #f0f7f4; border-color: #cce3d8;">
+            <h2 style="margin-top:0;">Тест "Пробний НМТ-2026" обмежений у часі (4 години).</h2>
+            <p style="line-height: 1.6;">
+                Національний мультипредметний тест (НМТ) містить завдання з навчальних предметів, а саме української
+                мови, математики, історії України та <span id="chosen-subject-display">...</span>. На виконання
+                відведено 240 хвилин (4 години). Слідкуйте за таймером.<br><br>
+                Як тільки Ви натиснете на кнопку «Розпочати роботу над тестом», <strong>автоматично розпочнеться відлік
+                    часу.</strong><br><br>
+                <b>ЗАБОРОНЕНО:</b> перемикати вкладинки, згортати вікно, відкривати сторонні програми. У разі порушення
+                тест буде анульовано!
+            </p>
+            <button id="btn-start-test" class="big-btn" style="margin-top: 10px;">Розпочати роботу над тестом ➔</button>
+        </div>
+    </div>
+
+
+    <div id="cheat-warning" class="overlay-screen" style="z-index: 9999999;">
+        <h1 style="font-size: 60px; margin-bottom: 10px;">🛑 УВАГА! 🛑</h1>
+        <h2 style="margin-bottom: 20px;">Ви покинули вікно тесту!</h2>
+        <p style="font-size: 20px; margin-bottom: 40px;">Спроба списування. Негайно поверніться до виконання завдань.
+        </p>
+        <button id="btn-return-test" class="big-btn" style="background: white; color: var(--primary-red);">Повернутися
+            до виконання</button>
+    </div>
+
+    <div id="offline-screen" class="overlay-screen" style="z-index: 9999999;">
+        <h1 style="font-size:50px; color:#ff4444;">Втрачено з'єднання!</h1>
+        <p style="font-size:24px;">Тест призупинено. Відновіть підключення до Інтернету.</p>
+    </div>
+
+    <div id="mobile-blocker" class="overlay-screen"
+        style="display: none; background: #222; color: white; z-index: 99999999;">
+        <h1 style="font-size: 40px; margin-bottom: 20px; color: #ffffff;">🖥️ Тільки для ПК</h1>
+        <p style="font-size: 20px; max-width: 600px; line-height: 1.6;">
+            Пробний НМТ максимально наближений до реальних умов складання іспиту.<br><br>
+            Тому проходження тесту на мобільних телефонах та планшетах <b>не підтримується</b>.<br><br>
+            Будь ласка, відкрийте це посилання на комп'ютері або ноутбуці.
+        </p>
+    </div>
+
+    <div id="watermarks"></div>
+
+    <div id="finish-modal-overlay" class="modal-overlay">
+        <div class="finish-modal" id="finish-modal-content">
+
+            <div id="finish-step-1">
+                <div class="modal-title">Ви впевнені, що бажаєте завершити роботу над тестом?</div>
+                <div class="modal-text">
+                    Переконайтеся, що Ви натиснули на "Зберегти відповідь" біля кожного виконаного завдання. Ви можете
+                    повернутися до будь-якого і надати та/або зберегти відповідь.
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-outline" id="btn-final-yes" onclick="goToFinishStep2()">Так, завершити
+                        роботу</button>
+                    <button class="big-btn" style="padding: 10px 20px; font-size: 14px;"
+                        onclick="closeFinishModal()">Ні, повернутися до виконання</button>
+                </div>
+
+                <div id="block1-info-msg"
+                    style="display:none; margin-top: 15px; margin-bottom: 15px; padding: 15px; background: #eef7f2; border-left: 4px solid #28a745; color: #333; font-size: 14px; line-height: 1.5; border-radius: 4px;">
+                    <b>Увага!</b> Ви зараз виконуєте завдання першого предметного блоку. Згідно з правилами НМТ, якщо Ви
+                    завершили роботу раніше встановленого часу, нічого додатково натискати не потрібно. Просто
+                    дочекайтеся завершення часу на таймері (це ні на що не впливає). Перерва розпочнеться автоматично!
+                </div>
+                <div class="unanswered-box" id="unanswered-warning" style="display:none;">
+                    <div
+                        style="background:var(--primary-red);color:white;border-radius:50%;min-width:24px;height:24px;display:flex;justify-content:center;align-items:center;font-weight:bold;">
+                        !</div>
+                    <div>
+                        <b>Не надано та/або не збережено відповіді до таких завдань:</b><br>
+                        <span id="unanswered-list" style="margin-top: 5px; display: block; font-size: 13px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="finish-step-2" style="display:none;">
+                <div class="modal-title" style="font-size:18px;">Для складання іспиту відведена лише одна спроба. Чи
+                    дійсно Ви підтверджуєте намір надіслати надані відповіді та завершити роботу над тестом, після чого
+                    повернутися до роботи буде не можливо?</div>
+                <div class="modal-buttons">
+                    <button class="btn-outline" onclick="calculateAndShowResults(true)">Так, завершити роботу</button>
+                    <button class="big-btn" style="padding: 10px 20px; font-size: 14px;"
+                        onclick="closeFinishModal()">Ні, повернутися до виконання</button>
+                </div>
+                <div class="unanswered-box" style="margin-top:20px; align-items: center;">
+                    <div
+                        style="background:var(--primary-red);color:white;border-radius:50%;min-width:24px;height:24px;display:flex;justify-content:center;align-items:center;font-weight:bold;">
+                        !</div>
+                    <div style="width: 100%;">
+                        <b style="font-size: 16px;">Кількість наданих відповідей від загальної:</b><br><br>
+                        <div style="font-size: 14px; margin-bottom: 10px;"><b id="modal-label-subj1">Предмет 1:</b>
+                            <span id="modal-cnt-subj1">0</span> / <span id="modal-max-subj1">?</span></div>
+                        <div style="font-size: 14px; margin-bottom: 10px;"><b id="modal-label-subj2">Предмет 2:</b>
+                            <span id="modal-cnt-subj2">0</span> / <span id="modal-max-subj2">?</span></div>
+                        <div style="font-size: 14px; margin-bottom: 10px;"><b id="modal-label-subj3">Предмет 3:</b>
+                            <span id="modal-cnt-subj3">0</span> / <span id="modal-max-subj3">?</span></div>
+                        <div style="font-size: 14px; margin-bottom: 10px;"><b id="modal-name-subj4">Предмет на
+                                вибір:</b> <span id="modal-cnt-subj4">0</span> / <span id="modal-max-subj4">32</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="screen-break" class="overlay-screen" style="display: none;">
+        <div class="prestart-box"
+            style="background: #fff; border-color: var(--border-color); width: 600px; padding: 20px 30px; margin: 0 auto; text-align: center;">
+            <h2 style="color: var(--primary-red); margin-top: 0; margin-bottom: 10px; font-size: 24px;">ПЕРЕРВА</h2>
+
+            <div style="font-size: 48px; font-weight: bold; margin: 10px 0; font-variant-numeric: tabular-nums;"
+                id="break-timer">20:00</div>
+
+            <p
+                style="font-size: 14px; line-height: 1.4; color: #28a745; font-weight: bold; background: #eafaf1; padding: 8px; margin: 10px 0; border-radius: 4px;">
+                ✅ Ваші відповіді до першого предметного блоку успішно збережені!
+            </p>
+
+            <div
+                style="font-size: 13px; line-height: 1.4; text-align: left; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--primary-red); margin-bottom: 15px; border-radius: 4px;">
+                <b>Під час перерви ДОЗВОЛЯЄТЬСЯ:</b><br>
+                • Залишити своє робоче місце та вийти з аудиторії у кімнату відпочинку.<br>
+                • Скористатися вбиральнею, випити води та перекусити.<br><br>
+                <b>СУВОРО ЗАБОРОНЯЄТЬСЯ:</b><br>
+                • Користуватися мобільними телефонами, смарт-годинниками чи іншими гаджетами.<br>
+                • Спілкуватися з іншими учасниками щодо завдань тесту.<br>
+                • Залишати територію тимчасового екзаменаційного центру.
+            </div>
+
+            <p style="font-size: 13px; color: var(--primary-red); margin-bottom: 15px; font-weight: 600;">
+                Наголошуємо, що повертатися до завдань першого блоку після завершення перерви неможливо!
+            </p>
+
+            <button id="btn-start-block2" class="big-btn"
+                style="display: none; width: 100%; padding: 10px; font-size: 16px;">Розпочати другий блок ➔</button>
+            <p id="break-wait-msg" style="font-size: 13px; color: #888; margin: 10px 0 0 0;">Кнопка продовження
+                з'явиться автоматично по завершенню часу.</p>
+            <button onclick="endBreakEarly()"
+                style="margin-top: 10px; background: transparent; border: 1px solid #ccc; color: #888; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 11px;">Пропустити</button>
+        </div>
+    </div>
+
+    <div id="reference-modal-overlay" class="modal-overlay" style="z-index: 100005;">
+        <div
+            style="background: white; width: 95%; height: 95%; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: #f5f5f5; border-bottom: 1px solid #ddd;">
+                <h3 style="margin: 0; color: #333;">Довідкові матеріали</h3>
+
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="font-size:14px; color:#666; margin-right: 10px;">Масштаб:</span>
+                    <button onclick="zoomRef(0.25)"
+                        style="padding: 5px 15px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: white;"
+                        title="Збільшити">➕</button>
+                    <button onclick="zoomRef(-0.25)"
+                        style="padding: 5px 15px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: white;"
+                        title="Зменшити">➖</button>
+
+                    <button onclick="closeReference()" class="big-btn"
+                        style="width: auto; padding: 10px 20px; font-size: 16px; margin-left: 30px;">Повернутися до
+                        тесту ➔</button>
+                </div>
+            </div>
+
+            <div id="ref-scroll-container"
+                style="flex: 1; overflow: auto; background: #525659; text-align: center; padding: 30px;">
+                <div id="ref-image-wrapper"
+                    style="display: inline-block; width: 900px; max-width: 100%; transition: width 0.2s ease;">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="main-test-interface" style="display: none;">
+        <div class="header">
+            <div class="header-logo">
+                <img src="https://zno.osvita.ua/doc/i/favicons/apple-touch-icon.png"
+                    alt="Симуляція НМТ-2026 від сайту Освіта.ua"> Симуляція НМТ-2026 від сайту Освіта.ua
+            </div>
+            <div class="header-user" id="user-menu-btn">
+                <span id="display-user-name">Очікування...</span> ▼
+                <div class="logout-menu" id="logout-menu" onclick="userLogout()">Вийти</div>
+            </div>
+        </div>
+
+        <div class="top-nav">
+            <a id="nav-exam" class="active">Іспит</a>
+            <a id="ref-math"
+                onclick="openReference(['dodmaterialy/1.jpg', 'dodmaterialy/2.jpg', 'dodmaterialy/3.jpg'])">Математика:
+                довідкові матеріали</a>
+            <a id="ref-physics"
+                onclick="openReference(['dodmaterialy/11.jpg', 'dodmaterialy/22.jpg', 'dodmaterialy/33.jpg', 'dodmaterialy/44.jpg'])"
+                style="display: none;">Фізика: довідкові матеріали</a>
+            <a id="ref-chemistry"
+                onclick="openReference(['dodmaterialy/111.jpg', 'dodmaterialy/222.jpg', 'dodmaterialy/333.jpg'])"
+                style="display: none;">Хімія: довідкові матеріали</a>
+            <a id="nav-instruction">Інструкція</a>
+            <div style="margin-left: auto; display: flex; align-items: center; gap: 5px; padding-right: 20px;">
+            </div>
+        </div>
+
+        <div class="info-plashka-container" id="plashka-container">
+            <div class="info-plashka">
+                <div class="info-text" id="plashka-text">
+                    <span style="color:var(--primary-red);">Пробний НМТ-2026</span> обмежений у часі. Таймер праворуч
+                    показує, скільки хвилин залишилося до кінця роботи. Вибравши відповідь, не забудьте натиснути
+                    "Зберегти відповідь". <a href="#" class="hide-link" id="hide-plashka-btn">Сховати</a>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn-finish" onclick="openFinishModal()">Завершити роботу над тестом</button>
+                    <div class="timer-display" id="main-timer">2:00:00</div>
+                    <button class="btn-eye" id="toggle-timer-btn" title="Сховати/Показати таймер">
+                        <svg id="icon-eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg id="icon-eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <path
+                                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                            </path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="instruction-area">
+            <h2 style="text-align: center;">НАЦІОНАЛЬНИЙ МУЛЬТИПРЕДМЕТНИЙ ТЕСТ</h2>
+
+            <p>
+                Національний мультипредметний тест (далі – НМТ) складається з чотирьох навчальних предметів: трьох
+                <i>обов'язкових</i> (українська мова, математика, історія України) й одного навчального предмета, який
+                <i>Ви вибрали</i> під час реєстрації.
+                <br><br>
+                Тестування проходитиме у два етапи: <b>1 етап</b> передбачатиме виконання завдань з двох
+                <i>обов'язкових</i> предметів (українська мова, математика); <b>2 етап</b> – виконання завдань із
+                обов'язкового предмета (історія України) та завдань із предмета, який <i>Ви вибрали</i> під час
+                реєстрації.
+                <br><br>
+                На виконання всіх завдань НМТ відведено <b>240 хвилин</b> – по <b>120 хвилин</b> на кожному етапі. Між
+                етапами буде перерва тривалістю <b>20 хвилин</b>.
+                <br><br>
+                Спочатку Ви матимете змогу пройти <b>1 етап</b> тестування, а після перерви – <b>2 етап</b>, самостійно
+                розподіливши час виконання завдань предметних тестів у межах певного етапу. Щоб розпочати <b>2 етап</b>
+                тестування, Вам треба завершити <b>1 етап</b>. Повернутися до <b>1 етапу</b> тестування після того, як
+                Ви розпочали <b>2 етап, неможливо.</b>
+                <br><br>
+                Слідкувати за часом Вам допоможе таймер, який показуватиме, скільки ще залишилося часу до завершення
+                роботи на кожному етапі. Таймер з'явиться в правому верхньому куті екрана відразу після натискання Вами
+                кнопки «Розпочати тест».
+            </p>
+
+            <p style="text-align: center; font-weight: 700;">Інструкція щодо роботи із завданнями</p>
+
+            <p>
+                1. Правила виконання зазначено перед завданнями кожної нової форми.
+                <br>
+                2. У разі потреби використовуйте як чернетку аркуш паперу, наданий Вам перед початком тестування.
+                <br>
+                3. Під час виконання завдань із математики можете скористатися довідковими матеріалами вкладки
+                «Математика: довідкові матеріали». Якщо Ви вибрали предметний тест із фізики чи хімії, можете також
+                скористатися довідковими матеріалами відповідних вкладок: «Фізика: довідкові матеріали», «Хімія:
+                довідкові матеріали». Натисніть на вкладку з довідковими матеріалами, щоб побачити їх в окремому вікні.
+                Скориставшись довідковими матеріалами, Ви зможете закрити або згорнути вкладку. Якщо треба знову
+                скористатися довідковими матеріалами, Ви або повторно відкриваєте, або розгортаєте вкладку з ними. Щоб
+                розгорнути вкладку з довідковими матеріалами, натисніть кнопку меню «Open Webpages», яка розташована в
+                лівому нижньому куті екрана. Виберіть і розгорніть необхідне вікно.
+                <br>
+                4. Відповідайте лише після того, як Ви уважно прочитали та зрозуміли завдання.
+                <br>
+                5. Для зарахування наданої Вами відповіді на завдання обов'язково натисніть кнопку <b>«Зберегти
+                    відповідь»</b>. Незбережені відповіді не зарахують.
+                <br>
+                6. Для виправлення вже наданої і збереженої відповіді виберіть інший варіант відповіді й натисніть
+                кнопку «Зберегти відповідь». Тоді буде зараховано останню збережену Вами відповідь. Інформацію про
+                збережені відповіді буде відображено на боковій панелі екрана праворуч. Стежте за сповіщеннями, які
+                з'являтимуться на моніторі комп'ютера.
+                <br>
+                7. Намагайтеся виконати всі завдання. У разі потреби Ви можете пропустити завдання та повернутися до них
+                пізніше в межах кожного етапу.
+            </p>
+
+            <p>
+                Будьте уважні! Якщо Ви вважаєте, що виконали всі завдання певного етапу, натисніть розташовану поряд з
+                таймером кнопку «Завершити роботу над тестом». Після завершення <b>1 етапу</b> тестування Ви отримаєте
+                інформацію про кількість наданих і збережених Вами відповідей. Дізнатися Ваш тестовий бал із кожного
+                предмета НМТ можна лише після завершення роботи над завданнями <b>2 етапу</b> тестування. Вам буде
+                зараховано лише збережені відповіді <b>1</b> і <b>2 етапів</b>, повернутися до виконання завдань
+                неможливо.
+                <br><br>
+                Після завершення <b>2 етапу</b> тестування обов'язково підпишіть Аудиторний протокол.
+            </p>
+
+            <p style="text-align: center; font-weight: 700;">Зичимо Вам успіху!</p>
+        </div>
+
+        <div class="main-layout" id="test-area">
+            <div class="left-panel">
+                <div class="breadcrumbs">
+                    <span>Іспит > <span class="active-bread">Пробний НМТ-2026</span> > НМТ-2026</span>
+
+                    <div id="expand-test-btn" class="expand-btn" title="Розгорнути/Згорнути">
+                        <svg id="icon-expand" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="8 3 3 3 3 8"></polyline>
+                            <line x1="3" y1="3" x2="9" y2="9"></line>
+                            <polyline points="16 3 21 3 21 8"></polyline>
+                            <line x1="21" y1="3" x2="15" y2="9"></line>
+                            <polyline points="8 21 3 21 3 16"></polyline>
+                            <line x1="3" y1="21" x2="9" y2="15"></line>
+                            <polyline points="16 21 21 21 21 16"></polyline>
+                            <line x1="21" y1="21" x2="15" y2="15"></line>
+                        </svg>
+
+                        <svg id="icon-collapse" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                            style="display: none;">
+                            <polyline points="10 4 10 10 4 10"></polyline>
+                            <line x1="10" y1="10" x2="3" y2="3"></line>
+                            <polyline points="14 4 14 10 20 10"></polyline>
+                            <line x1="14" y1="10" x2="21" y2="3"></line>
+                            <polyline points="10 20 10 14 4 14"></polyline>
+                            <line x1="10" y1="14" x2="3" y2="21"></line>
+                            <polyline points="14 20 14 14 20 14"></polyline>
+                            <line x1="14" y1="14" x2="21" y2="21"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="subject-tabs">
+                    <div id="tab-subj1" class="active" onclick="window.switchSubject(subj1Id, this)"
+                        style="cursor:pointer;">Українська мова</div>
+                    <div id="tab-subj2" onclick="window.switchSubject(subj2Id, this)" style="cursor:pointer;">Математика
+                    </div>
+                    <div id="tab-subj3" onclick="window.switchSubject(getSubj3Id(), this)"
+                        style="cursor:pointer; display:none;">Історія України</div>
+                    <div id="tab-subj4" style="display:none;"
+                        onclick="window.switchSubject(localStorage.getItem('nmtSubject4') || (window.GROUP&&window.GROUP.electiveOptions&&window.GROUP.electiveOptions[0]?window.GROUP.electiveOptions[0].subj:'eng'), this)"
+                        style="cursor:pointer;"><span id="subj4-tab-name">Предмет на вибір</span></div>
+                </div>
+                <div class="content-area">
+                    <h2 class="subject-title" id="main-subject-title">Українська мова</h2>
+                    <div class="bookmark" id="bookmark-btn" onclick="toggleBookmark()">
+                        <svg width="14" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+                        </svg>
+                        <span id="bm-text">Додати цю сторінку до закладок</span>
+                    </div>
+                    <div id="questions-container"></div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="grid-title">Завдання</div>
+                <div class="grid-container" id="nav-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // ─── Global error logging ─────────────────────────────────────────────────
+        // Catches any uncaught JS exception or unhandled promise rejection on this
+        // page and logs it to the browser console with a timestamp.
+
+        window.onerror = function (message, source, lineno, colno, error) {
+            // Chrome-internal error from native <select> popups; not actionable in user code.
+            if (typeof message === 'string' && message.includes('setValueAndClosePopup')) {
+                return true; // suppress — prevents console noise, no real effect on app
+            }
+
+            const ts = new Date().toISOString();
+            console.error(`[${ts}] UNCAUGHT ERROR: ${message}`, { source, lineno, colno, error });
+            return false;
+        };
+
+        window.addEventListener('unhandledrejection', function (event) {
+            const ts = new Date().toISOString();
+            console.error(`[${ts}] UNHANDLED REJECTION:`, event.reason);
+        });
+
+        // ─── Tracking logic ───────────────────────────────────────────────────────
+        function getSessionId() {
+            let sid = localStorage.getItem('nmtSessionId');
+            if (!sid) {
+                sid = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('nmtSessionId', sid);
+            }
+            return sid;
+        }
+
+        async function reportProgress(stage = 'block1', finalScores = null) {
+            const name = localStorage.getItem('nmtName') || 'Anonymous';
+            const savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+            const clozeAnswers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+            const answers = { ...savedData, ...clozeAnswers };
+
+            const electiveVariantId = localStorage.getItem('nmtElectiveVariantId');
+            const sessionId = getSessionId();
+
+            try {
+                await fetch('/api/results/report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId,
+                        name,
+                        slug,
+                        answers,
+                        stage,
+                        electiveVariantId,
+                        scores: finalScores
+                    })
+                });
+            } catch (err) {
+                console.warn('[reportProgress] Failed:', err);
+            }
+        }
+
+        // ─── Group config is fetched from the API before the test initialises ─────
+        // window.GROUP  →  full group object  (set by loadGroup)
+        // window.qData  →  flat question array (set by loadGroup)
+
+        let qData = [];
+        var subj1Id = '', subj2Id = '', subj3Id = '', subj4Id = '', subj4Name = '';
+        var currentActiveSubject = 'ukr';
+
+        const slug = window.location.pathname.replace(/^\//, '').split('/')[0] || 'demo2026';
+
+        async function loadGroup() {
+            const loadingEl = document.getElementById('loading-screen');
+            if (loadingEl) loadingEl.style.display = 'flex';
+
+            let group;
+            try {
+                const res = await fetch('/api/group/' + slug);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                group = await res.json();
+            } catch (err) {
+                console.error('[loadGroup] Failed to fetch group config:', err);
+                document.body.innerHTML =
+                    '<div style="display:flex;justify-content:center;align-items:center;height:100vh;' +
+                    'flex-direction:column;font-family:sans-serif;text-align:center;padding:20px;">' +
+                    '<h1 style="color:#c61036;">Тест не знайдено</h1>' +
+                    '<p style="color:#555;">Перевірте правильність посилання.<br>Помилка: ' + err.message + '</p></div>';
+                return;
+            }
+
+            window.GROUP = group;
+
+            // Build flat qData: fixed subjects first, then all electives.
+            // Inject the variant-level subj onto every question object so that
+            // slide/grid rendering (which reads q.subj) works correctly — the API
+            // only sets subj at the variant level, not on individual questions.
+            function tagSubj(questions, subj) {
+                return (questions || []).map(q => {
+                    const newQ = Object.assign({}, q, { subj: subj });
+                    // Ensure unique ID across the entire test session
+                    const prefix = subj + '_';
+                    newQ.id = prefix + q.id;
+                    if (newQ.subIds) {
+                        newQ.subIds = newQ.subIds.map(sid => prefix + sid);
+                    }
+                    if (newQ.parent) {
+                        newQ.parent = prefix + newQ.parent;
+                    }
+                    return newQ;
+                });
+            }
+            qData = [
+                ...tagSubj(group.subj1 && group.subj1.questions, group.subj1 && group.subj1.subj),
+                ...tagSubj(group.subj2 && group.subj2.questions, group.subj2 && group.subj2.subj),
+                ...tagSubj(group.subj3 && group.subj3.questions, group.subj3 && group.subj3.subj),
+            ];
+            (group.electiveOptions || []).forEach(function (opt) {
+                qData = qData.concat(tagSubj(opt.questions, opt.subj));
+            });
+
+            if (group.name) document.title = group.name;
+
+            if (loadingEl) loadingEl.style.display = 'none';
+            document.getElementById('screen-login').style.display = 'flex';
+
+            buildElectiveOptions(group.electiveOptions || []);
+            initTest();
+        }
+
+        function buildElectiveOptions(opts) {
+            var container = document.querySelector('#screen-subject-selection .answers-list');
+            if (!container) return;
+            container.innerHTML = '';
+            opts.forEach(function (opt) {
+                var lbl = document.createElement('label');
+                lbl.className = 'answer-item';
+                lbl.style.padding = '6px';
+                lbl.innerHTML = '<input type="radio" name="subject4" value="' + opt.title +
+                    '" data-subj="' + opt.subj + '" data-variant-id="' + opt.id + '"> ' + opt.title;
+                container.appendChild(lbl);
+            });
+        }
+
+        // ─── Helpers that read from GROUP config ──────────────────────────────────
+        function getSubj1Id() { return window.GROUP && window.GROUP.subj1 ? window.GROUP.subj1.subj : 'ukr'; }
+        function getSubj2Id() { return window.GROUP && window.GROUP.subj2 ? window.GROUP.subj2.subj : 'math'; }
+        function getSubj3Id() { return window.GROUP && window.GROUP.subj3 ? window.GROUP.subj3.subj : 'hist'; }
+
+        var _titleMap = {
+            'ukr': 'Українська мова', 'math': 'Математика', 'hist': 'Історія України',
+            'eng': 'Англійська мова', 'bio': 'Біологія', 'geo': 'Географія',
+            'phy': 'Фізика', 'che': 'Хімія', 'ukl': 'Українська література',
+            'fra': 'Французька мова', 'ger': 'Німецька мова', 'spa': 'Іспанська мова'
+        };
+        function getSubjectTitleById(subjId) {
+            if (window.GROUP) {
+                var opts = window.GROUP.electiveOptions || [];
+                for (var i = 0; i < opts.length; i++) {
+                    if (opts[i].subj === subjId && opts[i].title) return opts[i].title;
+                }
+            }
+            return _titleMap[subjId] || subjId;
+        }
+
+        function getElectiveVariantId(subjId) {
+            if (!window.GROUP) return null;
+            var opts = window.GROUP.electiveOptions || [];
+            for (var i = 0; i < opts.length; i++) {
+                if (opts[i].subj === subjId) return opts[i].id;
+            }
+            return null;
+        }
+
+        function checkDevice() {
+            const mobileBlocker = document.getElementById('mobile-blocker');
+            // If the main test DOM has been replaced (results screen, error screen, etc.)
+            // the element no longer exists — nothing to do.
+            if (!mobileBlocker) return;
+
+            const isMobileAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isIPad = navigator.userAgent.includes("Mac") && "ontouchend" in document;
+            const isSmallScreen = window.innerWidth < 800;
+
+            if (isMobileAgent || isIPad || isSmallScreen) {
+                mobileBlocker.style.display = 'flex';
+                const loginEl = document.getElementById('screen-login');
+                const mainEl = document.getElementById('main-test-interface');
+                if (loginEl) loginEl.style.display = 'none';
+                if (mainEl) mainEl.style.display = 'none';
+            } else {
+                mobileBlocker.style.display = 'none';
+            }
+        }
+        const DEBUG_MODE = false;
+
+        let currentQuestion = 1;
+        let isTestActive = false;
+        let strikeCount = parseInt(localStorage.getItem('nmtStrikeCount')) || 0;
+        let isTestFailed = localStorage.getItem('nmtFailed') === 'true';
+        let timerInterval;
+        let isBlock2 = localStorage.getItem('nmtCurrentBlock') === '2';
+        let timeLimit = parseInt(localStorage.getItem('nmtTimeLimit')) || (120 * 60);
+
+        localStorage.removeItem('nmtAnswers');
+        localStorage.removeItem('nmtBookmarks');
+
+        const lettersEn = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        const lettersUkr = ['А', 'Б', 'В', 'Г', 'Д'];
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // initTest() is called by loadGroup() after qData + GROUP are populated.
+        // The DOM is already ready at this point, so all setup runs directly —
+        // no DOMContentLoaded wrappers needed or used inside this function.
+        // ─────────────────────────────────────────────────────────────────────────
+        function initTest() {
+
+            // FIX: was wrapped in DOMContentLoaded — called directly now
+            checkDevice();
+            window.addEventListener('resize', checkDevice);
+
+            // ── Date / time display on prestart screen ────────────────────────
+            const now = new Date();
+
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            const currentDateString = `${dd}.${mm}.${yyyy}`;
+            const currentTimeString = `${hours}:${minutes}`;
+
+            const dateElement = document.getElementById('nmt-date-display');
+            if (dateElement) {
+                dateElement.innerHTML = `НМТ, ${currentDateString} РОКУ, ЧАС ПОЧАТКУ: ${currentTimeString}`;
+            }
+
+            // Populate finish-modal subject labels + totals from GROUP config
+            (function () {
+                var _s1 = getSubj1Id(), _s2 = getSubj2Id(), _s3 = getSubj3Id();
+                var lbl1 = document.getElementById('modal-label-subj1');
+                var lbl2 = document.getElementById('modal-label-subj2');
+                var lbl3 = document.getElementById('modal-label-subj3');
+                var max1 = document.getElementById('modal-max-subj1');
+                var max2 = document.getElementById('modal-max-subj2');
+                var max3 = document.getElementById('modal-max-subj3');
+                if (lbl1) lbl1.textContent = getSubjectTitleById(_s1) + ':';
+                if (lbl2) lbl2.textContent = getSubjectTitleById(_s2) + ':';
+                if (lbl3) lbl3.textContent = getSubjectTitleById(_s3) + ':';
+                if (max1) max1.textContent = getSubjectTotalQuestions(_s1);
+                if (max2) max2.textContent = getSubjectTotalQuestions(_s2);
+                if (max3) max3.textContent = getSubjectTotalQuestions(_s3);
+            })();
+
+            if (isBlock2) {
+                subj1Id = getSubj3Id();
+                subj2Id = localStorage.getItem('nmtSubject4') || (window.GROUP && window.GROUP.electiveOptions && window.GROUP.electiveOptions[0] ? window.GROUP.electiveOptions[0].subj : 'eng');
+                document.getElementById('tab-subj1').textContent = getSubjectTitleById(subj1Id);
+                document.getElementById('tab-subj2').textContent = localStorage.getItem('nmtSubject4Name') || getSubjectTitleById(subj2Id);
+                currentActiveSubject = getSubj3Id();
+                let infoMsg = document.getElementById('block1-info-msg');
+                if (infoMsg) infoMsg.style.display = 'none';
+            } else {
+                subj1Id = getSubj1Id();
+                subj2Id = getSubj2Id();
+                currentActiveSubject = getSubj1Id();
+                document.getElementById('tab-subj1').textContent = getSubjectTitleById(subj1Id);
+                document.getElementById('tab-subj2').textContent = getSubjectTitleById(subj2Id);
+            }
+
+            let isTestExpanded = false;
+            document.getElementById('expand-test-btn').onclick = function () {
+                isTestExpanded = !isTestExpanded;
+                const mainInterface = document.getElementById('main-test-interface');
+                const header = mainInterface.querySelector('.header');
+                const topNav = mainInterface.querySelector('.top-nav');
+                const plashka = mainInterface.querySelector('#plashka-container');
+
+                if (isTestExpanded) {
+                    header.style.display = 'none';
+                    topNav.style.display = 'none';
+                    plashka.style.display = 'none';
+                    document.getElementById('icon-expand').style.display = 'none';
+                    document.getElementById('icon-collapse').style.display = 'block';
+                    document.getElementById('test-area').style.paddingTop = '40px';
+                } else {
+                    header.style.display = 'flex';
+                    topNav.style.display = 'flex';
+                    plashka.style.display = 'block';
+                    document.getElementById('icon-expand').style.display = 'block';
+                    document.getElementById('icon-collapse').style.display = 'none';
+                    document.getElementById('test-area').style.paddingTop = '0px';
+                }
+            };
+
+            const grid = document.getElementById('nav-grid');
+            const container = document.getElementById('questions-container');
+
+            let lastTypePerSubj = {};
+
+            qData.forEach(q => {
+                let btn = document.createElement('div');
+                btn.className = `grid-btn subj-${q.subj}`;
+                btn.id = 'nav-btn-' + q.id;
+                btn.textContent = q.num;
+                btn.onclick = () => window.showQuestion(q.id);
+                grid.appendChild(btn);
+
+                let slide = document.createElement('div');
+                slide.className = `question-slide subj-${q.subj}`;
+                slide.id = 'slide-' + q.id;
+
+                let instrHtml = "";
+                if (lastTypePerSubj[q.subj] !== q.type) {
+                    let instrText = "";
+                    if (q.type === 'radio') {
+                        instrText = "Завдання мають декілька варіантів відповіді, з яких лише ОДИН правильний. Виберіть правильний варіант та <b>ЗБЕРЕЖІТЬ</b>.";
+                    } else if (q.type === 'match') {
+                        if (q.isSequence) instrText = "Установіть послідовність. <b>Перетягуйте</b> варіанти у відповідні комірки та <b>ЗБЕРЕЖІТЬ</b>.";
+                        else instrText = "У завданнях на встановлення відповідності <b>перетягуйте</b> варіанти у комірки та <b>ЗБЕРЕЖІТЬ</b>.";
+                    } else if (q.type === 'cloze') {
+                        instrText = "Оберіть правильні варіанти для всіх пропусків у тексті та натисніть <b>Зберегти відповіді</b>.";
+                    } else if (q.type === 'double_text') {
+                        instrText = "Введіть <b>дві числові відповіді</b> у відповідні поля та натисніть <b>Зберегти відповідь</b>.";
+                    } else if (q.type === 'triple_text') {
+                        instrText = "Введіть <b>три цифри</b> у відповідні поля та натисніть <b>Зберегти відповідь</b>.";
+                    } else {
+                        instrText = "Введіть числову відповідь та натисніть <b>Зберегти відповідь</b>.";
+                    }
+
+                    instrHtml = `<div style="background: #fdf5f6; border-left: 4px solid var(--primary-red); padding: 10px 15px; margin-bottom: 15px; font-size: 14px; color: #555;">${instrText}</div>`;
+                    lastTypePerSubj[q.subj] = q.type;
+                }
+
+                let qImagesHtml = '';
+                if (q.imageUrl) {
+                    qImagesHtml += `<div style="margin:10px 0;"><img src="${q.imageUrl}" style="max-width:100%;height:auto;border-radius:4px;display:block;"></div>`;
+                }
+                if (q.images && q.images.length) {
+                    q.images.forEach(imgSrc => {
+                        qImagesHtml += `<div style="margin:10px 0;"><img src="${imgSrc}" style="max-width:100%;height:auto;border-radius:4px;display:block;"></div>`;
+                    });
+                }
+
+                let contentHtml = `${instrHtml}
+                               <div class="question-number" style="font-size: 20px; color: #333; font-weight: bold; margin-bottom: 10px;">Завдання ${q.num}</div>
+                               <div class="question-text">${q.text || ''}${qImagesHtml}</div>`;
+
+                if (q.type === 'radio') {
+                    contentHtml += `<div class="answers-list">`;
+                    let letters = q.letters || ['А', 'Б', 'В', 'Г'];
+                    q.opts.forEach((opt, idx) => {
+                        contentHtml += `<label class="answer-item"><input type="radio" name="q${q.id}" value="${lettersEn[idx]}" onchange="window.enableSave('${q.id}')"><span class="marker">${letters[idx]}</span> <span>${opt}</span></label>`;
+                    });
+                    contentHtml += `</div>`;
+                } else if (q.type === 'match') {
+                    contentHtml += `<div class="match-wrapper">
+                                    <div class="match-left-col">`;
+                    q.pairs.forEach(p => {
+                        contentHtml += `
+                        <div class="match-row">
+                            <div class="match-q-block">${p.n}. ${p.t}</div> 
+                            <div class="match-arrow">➔</div>
+                            <div class="drop-zone" data-q="${q.id}" data-num="${p.n}">
+                                <div class="remove-match-btn" data-q="${q.id}" data-num="${p.n}" style="display:none;" title="Скасувати">×</div>
+                            </div>
+                        </div>`;
+                    });
+                    contentHtml += `    </div>
+                                    <div class="match-right-col">`;
+                    q.opts.forEach((opt, idx) => {
+                        contentHtml += `
+                        <div class="drag-slot" data-val="${lettersEn[idx]}">
+                            <div class="drag-item" draggable="true" data-val="${lettersEn[idx]}">${q.letters[idx]}. ${opt}</div>
+                        </div>`;
+                    });
+                    contentHtml += `</div></div>`;
+                } else if (q.type === 'double_text') {
+                    contentHtml += `<div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                    <b>1.</b> <input type="text" id="dt-input1-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
+                    <b>2.</b> <input type="text" id="dt-input2-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
+                </div>`;
+                } else if (q.type === 'triple_text') {
+                    contentHtml += `<div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                    <b>1.</b> <input type="text" id="tt-input1-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px; text-align: center;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
+                    <b>2.</b> <input type="text" id="tt-input2-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px; text-align: center;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
+                    <b>3.</b> <input type="text" id="tt-input3-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px; text-align: center;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
+                </div>`;
+                } else {
+                    contentHtml += `<input type="text" id="input-q${q.id}" class="short-answer-input" placeholder="Введіть число" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">`;
+                }
+
+                if (q.type === 'cloze') {
+                    let childIds = q.subIds || [q.id];
+                    let idsStr = childIds.map(id => `'${id}'`).join(',');
+                    contentHtml += `<button class="btn-save" id="btn-save-${q.id}" onclick="window.saveClozeGroup([${idsStr}])">Зберегти відповіді</button>
+                                <div class="saved-msg" id="msg-save-${q.id}">Відповіді збережено.</div>`;
+                } else {
+                    contentHtml += `<button class="btn-save" id="btn-save-${q.id}" onclick="window.saveAnswer('${q.id}')">Зберегти відповідь</button>
+                                <div class="saved-msg" id="msg-save-${q.id}">Відповідь збережено.</div>`;
+                }
+
+
+                const id = q.id;
+
+
+                if (!btn) {
+                    console.error('[BIND ERROR] Button not found:', id);
+                } else {
+                    console.log('[BIND OK]', id);
+                }
+
+
+                // Dynamic "forward" button at end of each fixed subject
+                let allSubjQs = qData.filter(x => x.subj === q.subj);
+                let isLastInSubj = allSubjQs.length > 0 && allSubjQs[allSubjQs.length - 1].id === q.id;
+                if (isLastInSubj && q.subj === getSubj1Id()) {
+                    contentHtml += `<div style="margin-top: 30px; text-align: right;"><button class="nav-btn" style="background: var(--primary-red); color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='var(--hover-red)'" onmouseout="this.style.background='var(--primary-red)'" onclick="window.switchSubject(getSubj2Id())">Вперед до ${getSubjectTitleById(getSubj2Id())} ➔</button></div>`;
+                } else if (isLastInSubj && q.subj === getSubj3Id()) {
+                    contentHtml += `<div style="margin-top: 30px; text-align: right;"><button class="nav-btn" style="background: var(--primary-red); color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='var(--hover-red)'" onmouseout="this.style.background='var(--primary-red)'" onclick="window.switchSubject(localStorage.getItem('nmtSubject4') || (window.GROUP&&window.GROUP.electiveOptions&&window.GROUP.electiveOptions[0]?window.GROUP.electiveOptions[0].subj:'eng'))">Вперед до предмета на вибір ➔</button></div>`;
+                }
+                slide.innerHTML = contentHtml;
+                container.appendChild(slide);
+            });
+
+            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([document.getElementById('questions-container')]);
+            }
+
+
+
+
+
+            let draggedItem = null;
+            document.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('dragstart', function (e) {
+                    draggedItem = this;
+                    setTimeout(() => this.style.display = 'none', 0);
+                });
+                item.addEventListener('dragend', function () {
+                    setTimeout(() => {
+                        if (draggedItem) draggedItem.style.display = 'block';
+                        draggedItem = null;
+
+                        document.querySelectorAll('.drop-zone').forEach(dz => {
+                            let btn = dz.querySelector('.remove-match-btn');
+                            if (btn) btn.style.display = dz.querySelector('.drag-item') ? 'flex' : 'none';
+                        });
+                    }, 0);
+                });
+            });
+
+            document.getElementById('btn-return-test').onclick = () => {
+                document.getElementById('cheat-warning').style.display = 'none';
+
+                if (!DEBUG_MODE && document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => console.error('[requestFullscreen]:', err));
+                }
+            };
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('over'); });
+                zone.addEventListener('dragleave', function () { this.classList.remove('over'); });
+                zone.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    this.classList.remove('over');
+
+                    if (this.querySelector('.drag-item')) return;
+
+                    if (draggedItem) {
+                        this.appendChild(draggedItem);
+                        draggedItem.style.display = 'block';
+                        this.querySelector('.remove-match-btn').style.display = 'flex';
+                        enableSave(this.getAttribute('data-q'));
+                    }
+                });
+            });
+
+            document.querySelectorAll('.drag-slot').forEach(slot => {
+                slot.addEventListener('dragover', e => e.preventDefault());
+                slot.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    if (draggedItem) {
+                        let parentDiv = this.closest('.match-right-col').querySelector(`.drag-slot[data-val="${draggedItem.dataset.val}"]`);
+                        parentDiv.appendChild(draggedItem);
+                        draggedItem.style.display = 'block';
+                    }
+                });
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-match-btn')) {
+                    let zone = e.target.closest('.drop-zone');
+                    let dragItem = zone.querySelector('.drag-item');
+                    let qId = e.target.getAttribute('data-q');
+
+                    if (dragItem) {
+                        let rightCol = document.querySelector(`#slide-${qId} .match-right-col`);
+                        let originalSlot = rightCol.querySelector(`.drag-slot[data-val="${dragItem.dataset.val}"]`);
+                        originalSlot.appendChild(dragItem);
+
+                        e.target.style.display = 'none';
+                        enableSave(qId);
+                    }
+                }
+            });
+
+            const wmCont = document.getElementById('watermarks');
+            const sharedId = Math.floor(Math.random() * 90000) + 10000;
+            for (let i = 0; i < 70; i++) {
+                let span = document.createElement('span');
+                span.textContent = `ID:${sharedId}`;
+                span.className = 'wm-text';
+                wmCont.appendChild(span);
+            }
+
+            if (localStorage.getItem('nmtName')) {
+                document.getElementById('display-user-name').innerHTML = localStorage.getItem('nmtName');
+            }
+
+            if (isTestFailed) {
+                document.getElementById('screen-login').style.display = 'none';
+                showFailedScreen();
+            }
+
+            document.getElementById('btn-to-prestart').onclick = () => {
+                let nameInput = document.getElementById('student-name');
+                let name = nameInput.value.trim();
+                let errorMsg = document.getElementById('name-error');
+
+                let formattedName = "ПІБ";
+
+                if (name !== "") {
+                    let regexUkr = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії''\-\s]+$/i;
+
+                    if (!regexUkr.test(name)) {
+                        errorMsg.textContent = "ПІБ має містити лише українські літери!";
+                        errorMsg.style.display = 'block';
+                        return;
+                    }
+
+                    let words = name.split(/\s+/);
+                    if (words.length < 2) {
+                        errorMsg.textContent = "Введіть коректне ПІБ (хоча б Прізвище та Ім'я) або залиште поле порожнім.";
+                        errorMsg.style.display = 'block';
+                        return;
+                    }
+
+                    let isValidLength = words.every(word => word.length >= 2);
+                    if (!isValidLength) {
+                        errorMsg.textContent = "Кожне слово має містити щонайменше 2 літери.";
+                        errorMsg.style.display = 'block';
+                        return;
+                    }
+
+                    formattedName = words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+                }
+
+                errorMsg.style.display = 'none';
+                ['nmtCurrentBlock', 'nmtTimeLimit', 'nmtAnswersData', 'nmtBookmarks', 'nmtStrikeCount', 'nmtFailed', 'nmtSubject4', 'nmtSubject4Name'].forEach(key => localStorage.removeItem(key));
+
+                clearInterval(timerInterval);
+                isBlock2 = false;
+                timeLimit = 120 * 60;
+                strikeCount = 0;
+                isTestFailed = false;
+                isTestActive = false;
+                currentQuestion = 1;
+
+                window.updateTimerText();
+
+                document.querySelectorAll('.grid-btn').forEach(btn => btn.classList.remove('saved', 'bookmarked', 'current'));
+                document.querySelectorAll('.btn-save').forEach(btn => {
+                    btn.classList.remove('saved', 'ready');
+                    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('saveClozeGroup')) {
+                        btn.textContent = 'Зберегти відповіді';
+                    } else {
+                        btn.textContent = 'Зберегти відповідь';
+                    }
+                });
+                document.querySelectorAll('.saved-msg').forEach(msg => msg.style.display = 'none');
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                document.querySelectorAll('.short-answer-input').forEach(i => i.value = '');
+                document.querySelectorAll('.cloze-select').forEach(sel => sel.value = '');
+
+                document.getElementById('bookmark-btn').classList.remove('saved');
+                document.getElementById('bm-text').textContent = 'Додати цю сторінку до закладок';
+                document.getElementById('bookmark-btn').style.color = 'var(--primary-red)';
+
+                document.querySelectorAll('.drop-zone .drag-item').forEach(item => {
+                    let qId = item.closest('.drop-zone').getAttribute('data-q');
+                    let rightCol = document.querySelector(`#slide-${qId} .match-right-col`);
+                    let originalSlot = rightCol.querySelector(`.drag-slot[data-val="${item.dataset.val}"]`);
+                    if (originalSlot) {
+                        originalSlot.appendChild(item);
+                        item.style.display = 'block';
+                    }
+                });
+                document.querySelectorAll('.remove-match-btn').forEach(btn => btn.style.display = 'none');
+                localStorage.setItem('nmtName', formattedName);
+                document.getElementById('display-user-name').innerHTML = formattedName;
+                document.getElementById('rules-user-name').innerHTML = formattedName;
+
+                reportProgress('block1');
+
+                document.getElementById('screen-login').style.display = 'none';
+                document.getElementById('rules-screen').style.display = 'block';
+                let watermarks = document.getElementById('watermarks');
+                if (watermarks) watermarks.style.display = 'none';
+            };
+
+            window.acceptRules = function () {
+                document.getElementById('rules-screen').style.display = 'none';
+                document.getElementById('screen-prestart').style.display = 'flex';
+                let watermarks = document.getElementById('watermarks');
+                if (watermarks) watermarks.style.display = 'flex';
+            };
+
+            document.getElementById('btn-to-rules').onclick = () => {
+                document.getElementById('screen-prestart').style.display = 'none';
+                document.getElementById('screen-subject-selection').style.display = 'flex';
+            };
+
+            document.getElementById('btn-start-test').onclick = () => {
+                document.getElementById('screen-rules').style.display = 'none';
+                document.getElementById('main-test-interface').style.display = 'block';
+
+                localStorage.setItem('nmtCurrentBlock', '1');
+                isBlock2 = false;
+
+                subj1Id = getSubj1Id();
+                subj2Id = getSubj2Id();
+                subj3Id = getSubj3Id();
+                subj4Id = localStorage.getItem('nmtSubject4');
+                subj4Name = localStorage.getItem('nmtSubject4Name');
+
+                document.getElementById('tab-subj1').textContent = getSubjectTitleById(subj1Id);
+                document.getElementById('tab-subj2').textContent = getSubjectTitleById(subj2Id);
+                if (subj3Id) {
+                    document.getElementById('tab-subj3').textContent = getSubjectTitleById(subj3Id);
+                }
+                if (subj4Id) {
+                    document.getElementById('subj4-tab-name').textContent = subj4Name;
+                }
+                document.getElementById('tab-subj1').style.display = '';
+                document.getElementById('tab-subj2').style.display = '';
+                document.getElementById('tab-subj3').style.display = 'none';
+                document.getElementById('tab-subj4').style.display = 'none';
+
+                timeLimit = 120 * 60;
+                localStorage.setItem('nmtTimeLimit', timeLimit);
+
+                window.updateReferenceMaterials();
+                window.updateTimerText();
+
+                isTestActive = true;
+                window.switchSubject(getSubj1Id());
+                window.startTimer();
+
+                if (!DEBUG_MODE) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen().catch(err => console.error('[requestFullscreen]:', err));
+                    }
+                }
+            };
+
+            document.getElementById('btn-final-start').onclick = () => {
+                let selectedSubject = document.querySelector('input[name="subject4"]:checked');
+                let errorMsg = document.getElementById('subject-error');
+
+                if (!selectedSubject) {
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                errorMsg.style.display = 'none';
+                let subjChoiceName = selectedSubject.value;
+                let subjChoiceId = selectedSubject.getAttribute('data-subj') || 'eng';
+                let electiveVariantId = selectedSubject.getAttribute('data-variant-id') || '';
+
+                const subjectGenitive = {
+                    "Англійська мова": "англійської мови", "Іспанська мова": "іспанської мови",
+                    "Німецька мова": "німецької мови", "Французька мова": "французької мови",
+                    "Біологія": "біології", "Географія": "географії", "Фізика": "фізики",
+                    "Хімія": "хімії", "Українська література": "української літератури"
+                };
+
+                localStorage.setItem('nmtSubject4', subjChoiceId);
+                localStorage.setItem('nmtSubject4Name', subjChoiceName);
+                localStorage.setItem('nmtElectiveVariantId', electiveVariantId);
+
+                reportProgress('block1');
+
+                let correctWord = subjectGenitive[subjChoiceName] || subjChoiceName.toLowerCase();
+                document.getElementById('chosen-subject-display').textContent = correctWord;
+
+                document.getElementById('screen-subject-selection').style.display = 'none';
+                document.getElementById('screen-rules').style.display = 'flex';
+            };
+
+            document.getElementById('hide-plashka-btn').onclick = (e) => {
+                e.preventDefault();
+                document.getElementById('plashka-text').style.display = 'none';
+            };
+
+            document.getElementById('nav-instruction').onclick = function () {
+                document.getElementById('test-area').style.display = 'none';
+                document.getElementById('instruction-area').style.display = 'block';
+                document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            };
+            document.getElementById('nav-exam').onclick = function () {
+                document.getElementById('instruction-area').style.display = 'none';
+                document.getElementById('test-area').style.display = 'flex';
+                document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            };
+
+            const userBtn = document.getElementById('user-menu-btn');
+            const logoutMenu = document.getElementById('logout-menu');
+
+            userBtn.addEventListener('click', (e) => {
+                if (logoutMenu.style.display === 'block') {
+                    logoutMenu.style.display = 'none';
+                } else {
+                    logoutMenu.style.display = 'block';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!userBtn.contains(e.target)) {
+                    logoutMenu.style.display = 'none';
+                }
+            });
+
+            function showFailedScreen() {
+                isTestActive = false;
+                clearInterval(timerInterval);
+                document.getElementById('main-test-interface').style.display = 'none';
+
+                document.getElementById('cheat-warning').innerHTML = `
+        <h1 style="font-size:60px;margin-bottom:10px;">❌ ТЕСТ АНУЛЬОВАНО ❌</h1>
+        <h2 style="margin-bottom:20px;">Ліміт порушень вичерпано</h2>
+        <p style="font-size:24px;font-weight:bold;color:#d9534f;margin-bottom:40px;">Ваш результат: 0 балів.</p>
+        
+        <button style="background: var(--primary-red); color: white; border: none; padding: 15px 40px; font-size: 20px; cursor: pointer; border-radius: 4px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" 
+                onmouseover="this.style.background='var(--hover-red)'" 
+                onmouseout="this.style.background='var(--primary-red)'"
+                onclick="localStorage.clear(); window.top.location.reload();">
+            Спробувати ще раз
+        </button>
+    `;
+
+                document.getElementById('cheat-warning').style.display = 'flex';
+                reportProgress('annulled');
+            }
+
+            function triggerStrike(isForced = false) {
+                if (DEBUG_MODE) return;
+                if (!isTestActive || isTestFailed) return;
+
+                if (!isForced && document.getElementById('reference-modal-overlay').style.display === 'flex') return;
+
+                document.getElementById('reference-modal-overlay').style.display = 'none';
+
+                strikeCount++;
+                localStorage.setItem('nmtStrikeCount', strikeCount);
+                if (strikeCount >= 3) {
+                    localStorage.setItem('nmtFailed', 'true');
+                    showFailedScreen();
+                } else {
+                    document.getElementById('cheat-warning').querySelector('h2').textContent = `Порушення правил! Попередження ${strikeCount} з 3`;
+                    document.getElementById('cheat-warning').style.display = 'flex';
+                    reportProgress(isBlock2 ? 'block2' : 'block1'); // Report strike but keep testing
+                }
+            }
+
+            window.addEventListener('blur', () => triggerStrike(false));
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) triggerStrike(true);
+            });
+
+            document.addEventListener('fullscreenchange', () => {
+                if (!document.fullscreenElement && isTestActive && !isTestFailed) {
+                    triggerStrike(true);
+                }
+            });
+
+            window.addEventListener('offline', () => { if (isTestActive) document.getElementById('offline-screen').style.display = 'flex'; });
+            window.addEventListener('online', () => { document.getElementById('offline-screen').style.display = 'none'; });
+
+            document.addEventListener('contextmenu', e => {
+                if (!DEBUG_MODE) e.preventDefault();
+            });
+            let currentFontSizeLevel = 0;
+
+            document.addEventListener('keydown', e => {
+                if (
+                    e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+                    (e.ctrlKey && ['U', 'P', 'C', 'X'].includes(e.key.toUpperCase()))
+                ) {
+                    if (!DEBUG_MODE) {
+                        e.preventDefault();
+                    }
+                }
+
+                if (e.ctrlKey && (e.key === '+' || e.key === '=' || e.key === '-' || e.key === '0')) {
+                    e.preventDefault();
+
+                    if ((e.key === '+' || e.key === '=') && currentFontSizeLevel < 1) {
+                        currentFontSizeLevel++;
+                    } else if (e.key === '-' && currentFontSizeLevel > -1) {
+                        currentFontSizeLevel--;
+                    } else if (e.key === '0') {
+                        currentFontSizeLevel = 0;
+                    }
+
+                    window.changeFontSize(currentFontSizeLevel);
+                }
+            });
+            document.addEventListener('copy', e => {
+                if (DEBUG_MODE) return;
+                e.preventDefault();
+                if (e.clipboardData) e.clipboardData.setData('text/plain', 'Спроба списування.');
+            });
+            document.addEventListener('cut', e => {
+                if (DEBUG_MODE) return;
+                e.preventDefault();
+            });
+            document.addEventListener('paste', e => {
+                if (DEBUG_MODE) return;
+                e.preventDefault();
+            });
+
+            let isTimerVisible = true;
+            document.getElementById('toggle-timer-btn').onclick = () => {
+                isTimerVisible = !isTimerVisible;
+                if (isTimerVisible) {
+                    document.getElementById('main-timer').style.display = 'block';
+                    document.getElementById('icon-eye-open').style.display = 'block';
+                    document.getElementById('icon-eye-closed').style.display = 'none';
+                } else {
+                    document.getElementById('main-timer').style.display = 'none';
+                    document.getElementById('icon-eye-open').style.display = 'none';
+                    document.getElementById('icon-eye-closed').style.display = 'block';
+                }
+            };
+
+            let savedBookmarks = JSON.parse(localStorage.getItem('nmtBookmarks')) || {};
+            Object.keys(savedBookmarks).forEach(qNum => {
+                if (savedBookmarks[qNum]) {
+                    let navBtn = document.getElementById('nav-btn-' + qNum);
+                    if (navBtn) navBtn.classList.add('bookmarked');
+                }
+            });
+
+            let savedAnswers = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+            Object.keys(savedAnswers).forEach(qNum => {
+                let btn = document.getElementById('nav-btn-' + qNum);
+                if (btn) btn.classList.add('saved');
+                let saveBtn = document.getElementById('btn-save-' + qNum);
+                if (saveBtn) { saveBtn.classList.add('saved'); saveBtn.textContent = 'Збережено'; }
+                let msg = document.getElementById('msg-save-' + qNum);
+                if (msg) msg.style.display = 'block';
+
+                let ans = savedAnswers[qNum];
+                let qObj = qData.find(q => q.id === qNum);
+
+                if (qObj) {
+                    if (qObj.type === 'match' && typeof ans === 'object' && ans !== null) {
+                        [1, 2, 3, 4].forEach(n => {
+                            if (ans[n]) {
+                                let dragItem = document.querySelector(`.question-slide#slide-${qNum} .drag-item[data-val="${ans[n]}"]`);
+                                let dropZone = document.querySelector(`.question-slide#slide-${qNum} .drop-zone[data-num="${n}"]`);
+                                if (dragItem && dropZone) {
+                                    dropZone.appendChild(dragItem);
+                                    dragItem.style.display = 'flex';
+                                    let removeBtn = dropZone.querySelector('.remove-match-btn');
+                                    if (removeBtn) removeBtn.style.display = 'flex';
+                                }
+                            }
+                        });
+                    } else if (qObj.type === 'double_text' && typeof ans === 'object' && ans !== null) {
+                        let inp1 = document.getElementById('dt-input1-q' + qNum);
+                        let inp2 = document.getElementById('dt-input2-q' + qNum);
+                        if (inp1 && ans[1]) inp1.value = ans[1];
+                        if (inp2 && ans[2]) inp2.value = ans[2];
+                    } else if (qObj.type === 'triple_text' && typeof ans === 'object' && ans !== null) {
+                        let inp1 = document.getElementById('tt-input1-q' + qNum);
+                        let inp2 = document.getElementById('tt-input2-q' + qNum);
+                        let inp3 = document.getElementById('tt-input3-q' + qNum);
+                        if (inp1 && ans[1]) inp1.value = ans[1];
+                        if (inp2 && ans[2]) inp2.value = ans[2];
+                        if (inp3 && ans[3]) inp3.value = ans[3];
+                    } else if (qObj.type === 'text') {
+                        let inp = document.getElementById('input-q' + qNum);
+                        if (inp) inp.value = ans;
+                    } else if (qObj.type === 'radio') {
+                        let r = document.querySelector(`input[name="q${qNum}"][value="${ans}"]`);
+                        if (r) r.checked = true;
+                    }
+                }
+            });
+
+            // ── End of main setup block ───────────────────────────────────────────────
+
+            window.userLogout = function () {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen().catch(err => console.log(err));
+                }
+                clearInterval(timerInterval);
+                document.body.innerHTML = `
+            <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; font-family:sans-serif; text-align:center; padding:20px; background:#f9f9f9;">
+                <h1 style="font-size: 36px; color: #333; font-weight: normal; margin-bottom: 20px;">Ви вийшли.</h1>
+                <p style="font-size: 14px; color: #555;">Якщо вас не перенаправлять протягом 5 секунд, <a href="#" onclick="window.top.location.reload()" style="color:var(--primary-red); text-decoration:none;">натисніть тут, щоб перейти на домашню сторінку.</a></p>
+            </div>
+        `;
+                setTimeout(() => {
+                    [
+                        'nmtName',
+                        'nmtCurrentBlock',
+                        'nmtTimeLimit',
+                        'nmtAnswersData',
+                        'nmtAnswers',
+                        'nmtBookmarks',
+                        'nmtStrikeCount',
+                        'nmtFailed',
+                        'nmtSubject4'
+                    ].forEach(key => localStorage.removeItem(key));
+
+                    window.top.location.reload();
+                }, 5000);
+            };
+
+            let currentZoom = 1;
+
+            window.openReference = function (imageUrls) {
+                let wrapper = document.getElementById('ref-image-wrapper');
+                wrapper.innerHTML = '';
+
+                if (typeof imageUrls === 'string') {
+                    imageUrls = [imageUrls];
+                }
+
+                imageUrls.forEach(url => {
+                    wrapper.innerHTML += `<img src="${url}" style="width: 100%; background: white; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: block;">`;
+                });
+
+                currentZoom = 1;
+                wrapper.style.width = '900px';
+                wrapper.style.maxWidth = '100%';
+
+                document.getElementById('reference-modal-overlay').style.display = 'flex';
+                document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('active'));
+            };
+
+            window.closeReference = function () {
+                document.getElementById('reference-modal-overlay').style.display = 'none';
+                document.getElementById('ref-image-wrapper').innerHTML = '';
+
+                if (document.getElementById('instruction-area').style.display === 'block') {
+                    document.getElementById('nav-instruction').classList.add('active');
+                } else {
+                    document.getElementById('nav-exam').classList.add('active');
+                }
+
+                if (!DEBUG_MODE && document.documentElement.requestFullscreen && !document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => console.error('[requestFullscreen]:', err));
+                }
+            };
+
+            window.zoomRef = function (step) {
+                currentZoom += step;
+                if (currentZoom < 0.5) currentZoom = 0.5;
+                if (currentZoom > 3) currentZoom = 3;
+
+                let wrapper = document.getElementById('ref-image-wrapper');
+                wrapper.style.width = (900 * currentZoom) + 'px';
+                wrapper.style.maxWidth = 'none';
+            };
+
+            window.changeFontSize = function (step) {
+                let baseSize = 16;
+                let titleSize = 24;
+
+                if (step === -1) { baseSize = 14; titleSize = 20; }
+                if (step === 1) { baseSize = 18; titleSize = 28; }
+
+                document.querySelectorAll('.question-text, .answer-item, .match-q-block, .drag-item').forEach(el => {
+                    el.style.fontSize = baseSize + 'px';
+                });
+                document.querySelectorAll('.question-number').forEach(el => {
+                    el.style.fontSize = titleSize + 'px';
+                });
+            };
+
+            window.switchSubject = function (subjId, tabEl, targetQuestionId) {
+                currentActiveSubject = subjId;
+
+                document.querySelectorAll('.subject-tabs div').forEach(t => t.classList.remove('active'));
+                if (tabEl) {
+                    tabEl.classList.add('active');
+                } else {
+                    let tabs = {
+                        [getSubj1Id()]: 'tab-subj1',
+                        [getSubj2Id()]: 'tab-subj2',
+                        [getSubj3Id()]: 'tab-subj3'
+                    };
+                    let tabId = tabs[subjId] || 'tab-subj4';
+                    let t = document.getElementById(tabId);
+                    if (t) t.classList.add('active');
+                }
+
+                document.querySelectorAll('.question-slide').forEach(s => {
+                    s.style.display = s.classList.contains('subj-' + subjId) ? 'block' : 'none';
+                });
+                document.querySelectorAll('.grid-btn').forEach(b => {
+                    b.style.display = b.classList.contains('subj-' + subjId) ? '' : 'none';
+                });
+
+                document.getElementById('main-subject-title').textContent = getSubjectTitleById(subjId);
+
+                let firstQ = qData.find(q => q.subj === subjId);
+                if (targetQuestionId) {
+                    window.showQuestion(targetQuestionId, false);
+                } else if (firstQ) {
+                    window.showQuestion(firstQ.id, true);
+                }
+
+                reportProgress(isBlock2 ? 'block2' : 'block1');
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                let bookmarks = JSON.parse(localStorage.getItem('nmtBookmarks')) || {};
+                let bmBtn = document.getElementById('bookmark-btn');
+                if (bmBtn) {
+                    if (bookmarks[subjId]) {
+                        bmBtn.classList.add('saved');
+                        document.getElementById('bm-text').textContent = 'Видалити із закладок';
+                        bmBtn.style.color = '#888';
+                    } else {
+                        bmBtn.classList.remove('saved');
+                        document.getElementById('bm-text').textContent = 'Додати цю сторінку до закладок';
+                        bmBtn.style.color = 'var(--primary-red)';
+                    }
+                }
+
+                let activeTab = document.querySelector('.subject-tabs .active');
+                if (activeTab) {
+                    if (bookmarks[subjId]) activeTab.classList.add('bookmarked');
+                    else activeTab.classList.remove('bookmarked');
+                }
+            };
+
+
+
+            window.checkCloze = function (groupId, childIds) {
+                let allFilled = true;
+                let currentValues = {};
+
+                childIds.forEach(id => {
+                    let sel = document.getElementById('sel-' + id);
+                    let value = sel ? sel.value : '';
+
+                    currentValues[id] = value;
+
+                    if (!sel || value === "") {
+                        allFilled = false;
+                    }
+                });
+
+                let btn = document.getElementById('btn-save-' + groupId);
+                let msg = document.getElementById('msg-save-' + groupId);
+                let navBtn = document.getElementById('nav-btn-' + groupId);
+
+                let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                let savedGroup = savedData[groupId] || null;
+
+                let isChanged = false;
+
+                if (!savedGroup) {
+                    isChanged = allFilled;
+                } else {
+                    isChanged = childIds.some(id => savedGroup[id] !== currentValues[id]);
+                }
+
+                if (!btn) return;
+
+                if (!allFilled) {
+                    btn.disabled = true;
+                    btn.classList.remove('ready', 'saved');
+                    btn.textContent = 'Зберегти відповіді';
+                    btn.style.background = '#fff';
+                    btn.style.cursor = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                    btn.style.opacity = '1';
+
+                    if (msg) msg.style.display = 'none';
+                    return;
+                }
+
+                if (isChanged) {
+                    btn.disabled = false;
+                    btn.classList.remove('saved');
+                    btn.classList.add('ready');
+                    btn.textContent = 'Зберегти відповіді';
+                    btn.style.background = '';
+                    btn.style.cursor = 'pointer';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                    btn.style.opacity = '1';
+
+                    if (msg) msg.style.display = 'none';
+                    return;
+                }
+
+                btn.disabled = false;
+                btn.classList.remove('ready');
+                btn.classList.add('saved');
+                btn.textContent = 'Збережено';
+                btn.style.background = '';
+                btn.style.cursor = 'pointer';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                btn.style.opacity = '1';
+
+                if (msg) msg.style.display = 'block';
+                if (navBtn) navBtn.classList.add('saved');
+            };
+
+            window.saveClozeGroup = function (childIds) {
+                let allFilled = true;
+                let values = {};
+                let mainId = childIds[0];
+
+                childIds.forEach(id => {
+                    let sel = document.getElementById('sel-' + id);
+                    if (!sel || sel.value === "") {
+                        allFilled = false;
+                    } else {
+                        values[id] = sel.value;
+                    }
+                });
+
+                if (!allFilled) {
+                    return;
+                }
+
+                // Save under plain id for UI restore, and under sel- prefix for scoring
+                let answers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+                childIds.forEach(id => {
+                    answers[id] = values[id];
+                });
+                localStorage.setItem('nmtAnswers', JSON.stringify(answers));
+
+                let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                savedData[mainId] = values;
+                localStorage.setItem('nmtAnswersData', JSON.stringify(savedData));
+
+                let navBtn = document.getElementById('nav-btn-' + mainId);
+                if (navBtn) navBtn.classList.add('saved');
+
+                let saveBtn = document.getElementById('btn-save-' + mainId);
+                if (saveBtn) {
+                    saveBtn.classList.remove('ready');
+                    saveBtn.classList.add('saved');
+                    saveBtn.textContent = 'Збережено';
+                    saveBtn.style.background = '';
+                    saveBtn.style.color = '';
+                    saveBtn.style.borderColor = '';
+                    saveBtn.style.cursor = '';
+                }
+
+                let msg = document.getElementById('msg-save-' + mainId);
+                if (msg) msg.style.display = 'block';
+
+                reportProgress(isBlock2 ? 'block2' : 'block1');
+            };
+
+            // FIX: was wrapped in DOMContentLoaded — called directly now
+            setTimeout(() => {
+            setTimeout(() => {
+                let answers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+                document.querySelectorAll('.cloze-select').forEach(sel => {
+                    let qId = sel.id.replace('sel-', '');
+                    // qId here is already prefixed (e.g., 'eng_e17')
+                    if (answers[qId]) {
+                        sel.value = answers[qId];
+                    }
+                });
+                qData.forEach(q => {
+                    if (q.type === 'cloze') {
+                        window.checkCloze(q.id, q.subIds || [q.id]);
+                    }
+                });
+            }, 500);
+            }, 500);
+
+            window.showQuestion = function (id, noScroll = false) {
+                let qObj = qData.find(q => q.id === id);
+                if (qObj && qObj.type === 'cloze_child') {
+                    id = qObj.parent;
+                    qObj = qData.find(q => q.id === id);
+                }
+
+                // If the question belongs to a different subject than the currently active one,
+                // switch to that subject first, then re-call showQuestion for the specific slide.
+                if (qObj && qObj.subj !== currentActiveSubject) {
+                    window.switchSubject(qObj.subj, null, id);
+                    return;
+                }
+
+                currentQuestion = id;
+
+                document.querySelectorAll('.grid-btn').forEach(btn => btn.classList.remove('current'));
+                let activeBtn = document.getElementById('nav-btn-' + id);
+                if (activeBtn) activeBtn.classList.add('current');
+
+                if (!noScroll) {
+                    let targetSlide = document.getElementById('slide-' + id);
+                    if (targetSlide) {
+                        let y = targetSlide.getBoundingClientRect().top + window.scrollY - 70;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                }
+
+                let bookmarks = JSON.parse(localStorage.getItem('nmtBookmarks')) || {};
+                let bmBtn = document.getElementById('bookmark-btn');
+                if (bmBtn) {
+                    if (bookmarks[currentActiveSubject]) {
+                        bmBtn.classList.add('saved');
+                        document.getElementById('bm-text').textContent = 'Видалити із закладок';
+                        bmBtn.style.color = '#888';
+                    } else {
+                        bmBtn.classList.remove('saved');
+                        document.getElementById('bm-text').textContent = 'Додати цю сторінку до закладок';
+                        bmBtn.style.color = 'var(--primary-red)';
+                    }
+                }
+                if (qObj && qObj.type === 'cloze') {
+                    let answers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+                    let childIds = qObj.subIds || [qObj.id];
+
+                    childIds.forEach(cid => {
+                        // cid here is prefixed
+                        let sel = document.getElementById('sel-' + cid);
+                        if (sel && answers[cid]) {
+                            sel.value = answers[cid];
+                        }
+                    });
+                    window.checkCloze(qObj.id, childIds);
+                }
+            };
+
+            window.navPrev = function () {
+                let subjData = qData.filter(q => q.subj === currentActiveSubject);
+                let idx = subjData.findIndex(q => q.id === currentQuestion);
+                if (idx > 0) window.showQuestion(subjData[idx - 1].id);
+            };
+
+            window.navNext = function () {
+                let subjData = qData.filter(q => q.subj === currentActiveSubject);
+                let idx = subjData.findIndex(q => q.id === currentQuestion);
+                if (idx < subjData.length - 1) window.showQuestion(subjData[idx + 1].id);
+            };
+
+            window.toggleBookmark = function () {
+                let btn = document.getElementById('bookmark-btn');
+                let isSaved = !btn.classList.contains('saved');
+
+                if (isSaved) {
+                    btn.classList.add('saved');
+                    document.getElementById('bm-text').textContent = 'Видалити із закладок';
+                    btn.style.color = '#888';
+                } else {
+                    btn.classList.remove('saved');
+                    document.getElementById('bm-text').textContent = 'Додати цю сторінку до закладок';
+                    btn.style.color = 'var(--primary-red)';
+                }
+
+                let bookmarks = JSON.parse(localStorage.getItem('nmtBookmarks')) || {};
+                bookmarks[currentActiveSubject] = isSaved;
+                localStorage.setItem('nmtBookmarks', JSON.stringify(bookmarks));
+
+                let activeTab = document.querySelector('.subject-tabs .active');
+                if (activeTab) {
+                    if (isSaved) activeTab.classList.add('bookmarked');
+                    else activeTab.classList.remove('bookmarked');
+                }
+            };
+
+            window.sanitizeInput = function (input) {
+                let val = input.value;
+                val = val.replace(/[^0-9.,-]/g, '');
+                if (val.indexOf('-') > 0) val = val.replace(/-/g, '');
+                let parts = val.split(/[.,]/);
+                if (parts.length > 2) {
+                    val = parts[0] + '.' + parts.slice(1).join('');
+                }
+                input.value = val;
+            };
+
+            window.enableSave = function (num) {
+                let inputs = document.querySelectorAll(`input[id$="${num}"]`);
+                if (inputs.length > 0) {
+                    let strictInputs = Array.from(inputs).filter(inp => typeof getStrictPattern === 'function' && getStrictPattern(inp.id));
+                    if (strictInputs.length > 0) {
+                        let hasValidValue = strictInputs.some(inp => {
+                            const pattern = getStrictPattern(inp.id);
+                            return pattern && pattern.test(inp.value);
+                        });
+                        if (!hasValidValue) return;
+                    }
+                }
+
+                let btn = document.getElementById('btn-save-' + num);
+                if (btn) {
+                    btn.classList.remove('saved');
+                    btn.classList.add('ready');
+                    btn.textContent = 'Зберегти відповідь';
+                }
+                let msg = document.getElementById('msg-save-' + num);
+                if (msg) msg.style.display = 'none';
+            };
+
+            window.saveAnswer = function (id) {
+
+                try {
+                    let isAnswered = false;
+                    let answerData = null;
+                    let qObj = qData.find(q => q.id === id);
+
+                    if (!qObj) return;
+
+
+                    if (qObj.type === 'radio') {
+                        let selected = document.querySelector(`input[name="q${id}"]:checked`);
+                        if (selected) { isAnswered = true; answerData = selected.value; }
+                    } else if (qObj.type === 'match') {
+                        let pairCount = Array.isArray(qObj.pairs) ? qObj.pairs.length : 4;
+                        let slots = {};
+                        let anyFilled = false;
+                        for (let n = 1; n <= pairCount; n++) {
+                            let item = document.querySelector(`#slide-${id} .drop-zone[data-num="${n}"] .drag-item`);
+                            slots[n] = item ? item.dataset.val : null;
+                            if (item) anyFilled = true;
+                        }
+                        if (anyFilled) {
+                            isAnswered = true;
+                            answerData = slots;
+                        }
+                    } else if (qObj.type === 'double_text') {
+                        let inp1 = document.getElementById('dt-input1-q' + id);
+                        let inp2 = document.getElementById('dt-input2-q' + id);
+                        if (inp1 && inp2 && (inp1.value.trim() !== '' || inp2.value.trim() !== '')) {
+                            isAnswered = true;
+                            let str1 = inp1.value.trim().replace(',', '.');
+                            let str2 = inp2.value.trim().replace(',', '.');
+
+                            answerData = { 1: str1, 2: str2 };
+                        }
+                    } else if (qObj.type === 'triple_text') {
+                        let inp1 = document.getElementById('tt-input1-q' + id);
+                        let inp2 = document.getElementById('tt-input2-q' + id);
+                        let inp3 = document.getElementById('tt-input3-q' + id);
+                        if (inp1 && inp2 && inp3 && (inp1.value.trim() !== '' || inp2.value.trim() !== '' || inp3.value.trim() !== '')) {
+                            isAnswered = true;
+                            let str1 = inp1.value.trim().replace(',', '.');
+                            let str2 = inp2.value.trim().replace(',', '.');
+                            let str3 = inp3.value.trim().replace(',', '.');
+                            answerData = { 1: str1, 2: str2, 3: str3 };
+                        }
+                    } else if (qObj.type === 'text') {
+                        let inp = document.getElementById('input-q' + id);
+                        if (inp && inp.value.trim() !== '') {
+                            isAnswered = true;
+                            let cleanNumber = parseFloat(inp.value.trim().replace(',', '.'));
+
+                            if (!isNaN(cleanNumber)) {
+                                answerData = cleanNumber.toString();
+                            } else {
+                                answerData = inp.value.trim().replace(',', '.');
+                            }
+                        }
+                    }
+
+                    if (isAnswered) {
+                        document.getElementById('btn-save-' + id).className = 'btn-save saved';
+                        document.getElementById('btn-save-' + id).textContent = 'Збережено';
+                        document.getElementById('nav-btn-' + id).classList.add('saved');
+                        document.getElementById('msg-save-' + id).style.display = 'block';
+
+                        let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                        savedData[id] = answerData;
+                        localStorage.setItem('nmtAnswersData', JSON.stringify(savedData));
+                        reportProgress(isBlock2 ? 'block2' : 'block1');
+                    }
+
+                } catch (err) {
+                    console.error('[SAVE ERROR]', id, err);
+                }
+
+            };
+
+            let observerOptions = { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0 };
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        let visibleId = entry.target.id.replace('slide-', '');
+                        currentQuestion = visibleId;
+
+                        document.querySelectorAll('.grid-btn').forEach(btn => btn.classList.remove('current'));
+                        let activeBtn = document.getElementById('nav-btn-' + visibleId);
+                        if (activeBtn) activeBtn.classList.add('current');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.question-slide').forEach(slide => observer.observe(slide));
+
+            window.updateTimerText = function () {
+                let h = Math.floor(timeLimit / 3600);
+                let m = Math.floor((timeLimit % 3600) / 60);
+                let s = timeLimit % 60;
+                let timerEl = document.getElementById('main-timer');
+                if (timerEl) {
+                    timerEl.textContent = `${h}:${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+                    timerEl.style.color = (timeLimit <= 600) ? 'var(--primary-red)' : '#333';
+                }
+            };
+
+            window.startTimer = function () {
+                if (timerInterval) clearInterval(timerInterval);
+
+                const expectedEndTime = Date.now() + (timeLimit * 1000);
+
+                function updateMainTimer() {
+                    timeLimit = Math.max(0, Math.ceil((expectedEndTime - Date.now()) / 1000));
+
+                    if (timeLimit <= 0) {
+                        clearInterval(timerInterval);
+                        let isBlock2 = localStorage.getItem('nmtCurrentBlock') === '2';
+                        if (!isBlock2) {
+                            window.startBreakPhase();
+                        } else {
+                            window.calculateAndShowResults(false);
+                        }
+                        return;
+                    }
+
+                    localStorage.setItem('nmtTimeLimit', timeLimit);
+                    window.updateTimerText();
+                }
+
+                updateMainTimer();
+                timerInterval = setInterval(updateMainTimer, 250);
+            };
+
+            let breakTimerInterval;
+            let breakTime = 20 * 60;
+
+            // FIX: Show phy/che reference tabs only when the chosen elective subject requires them
+            window.updateReferenceMaterials = function () {
+                let subj4Id = localStorage.getItem('nmtSubject4') || '';
+                let mathRef = document.getElementById('ref-math');
+                let physRef = document.getElementById('ref-physics');
+                let chemRef = document.getElementById('ref-chemistry');
+                if (mathRef) mathRef.style.display = 'block';
+                if (physRef) physRef.style.display = subj4Id === 'phy' ? 'block' : 'none';
+                if (chemRef) chemRef.style.display = subj4Id === 'che' ? 'block' : 'none';
+            };
+
+            window.updateReferenceMaterials();
+
+            window.startBreakPhase = function () {
+                isTestActive = false;
+                if (typeof closeFinishModal === 'function') closeFinishModal();
+                clearInterval(timerInterval);
+                if (breakTimerInterval) clearInterval(breakTimerInterval);
+
+                document.getElementById('reference-modal-overlay').style.display = 'none';
+                document.getElementById('ref-image-wrapper').innerHTML = '';
+
+                if (document.fullscreenElement) {
+                    document.exitFullscreen().catch(err => console.error('[exitFullscreen]:', err));
+                }
+
+                document.getElementById('main-test-interface').style.display = 'none';
+                document.getElementById('screen-break').style.display = 'flex';
+
+                reportProgress('break');
+
+                const breakEndTime = Date.now() + 20 * 60 * 1000;
+
+                function updateBreakTimer() {
+                    const breakTime = Math.max(0, Math.ceil((breakEndTime - Date.now()) / 1000));
+
+                    const m = Math.floor(breakTime / 60);
+                    const s = breakTime % 60;
+                    document.getElementById('break-timer').textContent =
+                        `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+
+                    if (breakTime <= 0) {
+                        endBreakEarly();
+                        return;
+                    }
+                }
+
+                updateBreakTimer();
+                breakTimerInterval = setInterval(updateBreakTimer, 250);
+            };
+
+            window.endBreakEarly = function () {
+                clearInterval(breakTimerInterval);
+                document.getElementById('break-timer').textContent = "00:00";
+                document.getElementById('btn-start-block2').style.display = 'block';
+                document.getElementById('break-wait-msg').style.display = 'none';
+            };
+
+            document.getElementById('btn-start-block2').onclick = () => {
+                isTestActive = true;
+                localStorage.setItem('nmtCurrentBlock', '2');
+                isBlock2 = true;
+
+                subj1Id = getSubj3Id();
+                subj2Id = localStorage.getItem('nmtSubject4') || (window.GROUP && window.GROUP.electiveOptions && window.GROUP.electiveOptions[0] ? window.GROUP.electiveOptions[0].subj : 'eng');
+                document.getElementById('tab-subj1').textContent = getSubjectTitleById(subj1Id);
+                document.getElementById('tab-subj2').textContent = localStorage.getItem('nmtSubject4Name') || getSubjectTitleById(subj2Id);
+                document.getElementById('tab-subj1').style.display = '';
+                document.getElementById('tab-subj2').style.display = '';
+                document.getElementById('tab-subj3').style.display = 'none';
+                document.getElementById('tab-subj4').style.display = 'none';
+                let infoMsg = document.getElementById('block1-info-msg');
+                if (infoMsg) infoMsg.style.display = 'none';
+
+                window.updateReferenceMaterials();
+
+                document.getElementById('instruction-area').style.display = 'none';
+                document.getElementById('test-area').style.display = 'flex';
+                document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav-exam').classList.add('active');
+
+                timeLimit = 120 * 60;
+                localStorage.setItem('nmtTimeLimit', timeLimit);
+                window.updateTimerText();
+
+                document.getElementById('screen-break').style.display = 'none';
+                document.getElementById('main-test-interface').style.display = 'block';
+
+                if (!DEBUG_MODE && document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => console.error('[startBlock2] requestFullscreen failed:', err));
+                }
+                window.startTimer();
+                reportProgress('block2');
+                window.switchSubject(getSubj3Id());
+            };
+
+            function getSubjectTotalQuestions(subjId) {
+                const subjectQuestions = qData.filter(q => q.subj === subjId);
+
+                if (!subjectQuestions.length) return 0;
+
+                return Math.max(...subjectQuestions.map(q => {
+                    const numStr = String(q.num);
+
+                    if (numStr.includes('-')) {
+                        return parseInt(numStr.split('-')[1], 10);
+                    }
+
+                    return parseInt(numStr, 10);
+                }));
+            }
+
+            window.openFinishModal = function () {
+                let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                let unanswered1 = [], unanswered2 = [];
+
+                qData.forEach(q => {
+                    if (q.subj === subj1Id || q.subj === subj2Id) {
+                        if (!savedData[q.id]) {
+                            if (q.subj === subj1Id) unanswered1.push(q.num);
+                            if (q.subj === subj2Id) unanswered2.push(q.num);
+                        }
+                    }
+                });
+
+                const box = document.getElementById('unanswered-warning');
+                if (unanswered1.length > 0 || unanswered2.length > 0) {
+                    box.style.display = 'flex';
+                    let titles = { [getSubj1Id()]: getSubjectTitleById(getSubj1Id()), [getSubj2Id()]: getSubjectTitleById(getSubj2Id()), [getSubj3Id()]: getSubjectTitleById(getSubj3Id()) };
+                    let subj2Name = isBlock2 ? (localStorage.getItem('nmtSubject4Name') || getSubjectTitleById(getSubj3Id())) : getSubjectTitleById(getSubj2Id());
+
+                    document.getElementById('unanswered-list').innerHTML = `
+                ${unanswered1.length > 0 ? `<b>${titles[subj1Id]}:</b> Завдання ${unanswered1.join(', ')}<br>` : ''}
+                ${unanswered2.length > 0 ? `<b>${subj2Name}:</b> Завдання ${unanswered2.join(', ')}` : ''}
+            `;
+                } else { box.style.display = 'none'; }
+
+                document.getElementById('finish-step-1').style.display = 'block';
+                document.getElementById('finish-step-2').style.display = 'none';
+                document.getElementById('finish-modal-overlay').style.display = 'flex';
+
+                let btnConfirm = document.getElementById('btn-final-yes');
+                let infoMsg = document.getElementById('block1-info-msg');
+
+                if (!isBlock2) {
+                    btnConfirm.style.display = 'block';
+                    btnConfirm.textContent = "Завершити 1-й блок та перейти до перерви";
+                    btnConfirm.onclick = window.startBreakPhase;
+                    if (infoMsg) infoMsg.style.display = 'none';
+                } else {
+                    btnConfirm.style.display = 'block';
+                    btnConfirm.textContent = "Завершити іспит та побачити результати";
+                    btnConfirm.onclick = window.goToFinishStep2;
+                    if (infoMsg) infoMsg.style.display = 'none';
+                }
+            };
+
+            function getSubjectByAnswerId(qId) {
+                let cleanId = qId.startsWith('sel-') ? qId.substring(4) : qId;
+                const q = (typeof qData !== 'undefined' ? qData : []).find(it => {
+                    if (it.id === cleanId) return true;
+                    if (it.type === 'cloze' && (it.subIds || []).includes(cleanId)) return true;
+                    return false;
+                });
+                return q ? q.subj : 'unknown';
+            }
+
+            window.goToFinishStep2 = function () {
+                document.getElementById('finish-step-1').style.display = 'none';
+                document.getElementById('finish-step-2').style.display = 'block';
+                let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                let clozeAnswers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+                // Use untransformed keys for counting (plain ids like 'e17' work with getSubjectByAnswerId)
+                let scoringAnswers = { ...savedData, ...clozeAnswers };
+                let subj4Id = localStorage.getItem('nmtSubject4') || 'eng';
+                const _s1 = getSubj1Id(), _s2 = getSubj2Id(), _s3 = getSubj3Id();
+                let cnt = { [_s1]: 0, [_s2]: 0, [_s3]: 0, [subj4Id]: 0 };
+
+                Object.keys(scoringAnswers).forEach(k => {
+                    let subj = getSubjectByAnswerId(k);
+                    if (cnt.hasOwnProperty(subj)) cnt[subj]++;
+                });
+
+                document.getElementById('modal-cnt-subj1').textContent = cnt[_s1];
+                document.getElementById('modal-cnt-subj2').textContent = cnt[_s2];
+                document.getElementById('modal-cnt-subj3').textContent = cnt[_s3];
+                document.getElementById('modal-cnt-subj4').textContent = cnt[subj4Id];
+
+                let totalSubj4Questions = getSubjectTotalQuestions(subj4Id);
+                document.getElementById('modal-name-subj4').textContent = (localStorage.getItem('nmtSubject4Name') || 'Предмет на вибір') + ':';
+
+                let modalMaxSpan = document.getElementById('modal-max-subj4');
+                if (modalMaxSpan) modalMaxSpan.textContent = totalSubj4Questions;
+            };
+
+            window.closeFinishModal = function () { document.getElementById('finish-modal-overlay').style.display = 'none'; };
+
+            function isEquivalentAnswer(u, k) {
+                if (u == null || k == null) return false;
+                if (typeof u === 'object' && typeof k === 'object') {
+                    const uKeys = Object.keys(u);
+                    const kKeys = Object.keys(k);
+                    if (uKeys.length !== kKeys.length) return false;
+                    for (let key of uKeys) {
+                        if (!isEquivalentAnswer(u[key], k[key])) return false;
+                    }
+                    return true;
+                }
+                const uStr = String(u).trim().replace(',', '.');
+                const kStr = String(k).trim().replace(',', '.');
+                if (uStr === kStr) return true;
+                if (/^-?\d+(\.\d+)?$/.test(uStr) && /^-?\d+(\.\d+)?$/.test(kStr)) {
+                    return Math.abs(Number(uStr) - Number(kStr)) < 1e-6;
+                }
+                return uStr.toUpperCase() === kStr.toUpperCase();
+            }
+
+            window.calculateAndShowResults = async function (isEarly) {
+                isTestActive = false;
+                if (timerInterval) clearInterval(timerInterval);
+                if (document.fullscreenElement) document.exitFullscreen().catch(err => console.error('[calculateAndShowResults] exitFullscreen failed:', err));
+
+                let savedData = JSON.parse(localStorage.getItem('nmtAnswersData')) || {};
+                let clozeAnswers = JSON.parse(localStorage.getItem('nmtAnswers')) || {};
+                let scoringAnswers = { ...savedData, ...clozeAnswers };
+                let subj4Id = localStorage.getItem('nmtSubject4') || 'eng';
+                let subj4Name = localStorage.getItem('nmtSubject4Name') || 'Предмет на вибір';
+
+                // Use actual subject IDs from GROUP config instead of hardcoded 'ukr'/'math'/'hist'
+                const _s1 = getSubj1Id(), _s2 = getSubj2Id(), _s3 = getSubj3Id();
+                let answeredCounts = { [_s1]: 0, [_s2]: 0, [_s3]: 0, [subj4Id]: 0 };
+                Object.keys(scoringAnswers).forEach(k => {
+                    let subj = getSubjectByAnswerId(k);
+                    if (answeredCounts.hasOwnProperty(subj)) answeredCounts[subj]++;
+                });
+
+                let totalSubj4Questions = getSubjectTotalQuestions(subj4Id);
+
+                document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%;">Обробка результатів сервером...</h1>`;
+
+                try {
+                    const electiveVariantId = parseInt(localStorage.getItem('nmtElectiveVariantId')) || null;
+                    const response = await fetch('/api/group/' + slug + '/score', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ answers: scoringAnswers, electiveVariantId })
+                    });
+                    const data = await response.json();
+
+                    // New API returns { scores: { subj: { score } }, details: { subj: { questions, correctAnswers } } }
+                    const sc = data.scores || data; // fallback for old format
+                    // Read scores using actual subject IDs from GROUP config
+                    let scoreSubj1 = sc[_s1] ? sc[_s1].score : 0;
+                    let scoreSubj2 = sc[_s2] ? sc[_s2].score : 0;
+                    let scoreSubj3 = sc[_s3] ? sc[_s3].score : 0;
+                    let scoreSubj4 = sc[subj4Id] ? sc[subj4Id].score : 0;
+
+                    let studentName = localStorage.getItem('nmtName') || 'ПІБ';
+                    let headerText = isEarly ? "Ви дочасно завершили роботу над тестом." : "Час тестування вичерпано. Тест завершено.";
+
+                    // Report progress with final scores before clearing storage
+                    const finalScores = {};
+                    [ _s1, _s2, _s3, subj4Id ].forEach(sid => {
+                        finalScores[sid] = sc[sid] ? sc[sid].score : 0;
+                    });
+                    reportProgress('finished', finalScores);
+
+                    // ── Ukrainian letter mapping ──
+                    const _ukrMap = { 'A': 'А', 'B': 'Б', 'C': 'В', 'D': 'Г', 'E': 'Д', 'F': 'Е', 'G': 'Є', 'H': 'Ж' };
+                    const _foreignSubjs = ['eng', 'ger', 'fra', 'spa'];
+                    function toUkrLetter(val, subj) {
+                        if (val == null) return '—';
+                        if (_foreignSubjs.includes(subj)) return typeof val === 'object' ? JSON.stringify(val) : String(val);
+                        const convert = v => { const s = String(v).toUpperCase(); return _ukrMap[s] || v; };
+                        if (typeof val === 'object') {
+                            return Object.entries(val).map(([k, v]) => k + ':' + convert(v)).join(', ');
+                        }
+                        return convert(val);
+                    }
+
+                    // ── Build answer review HTML ──
+                    const details = data.details || {};
+                    // Only show the 4 subjects the student actually took
+                    const mySubjects = [_s1, _s2, _s3, subj4Id];
+                    const _subjNames = {};
+                    mySubjects.forEach(sid => {
+                        _subjNames[sid] = (sid === subj4Id) ? subj4Name : getSubjectTitleById(sid);
+                    });
+
+                    let reviewHtml = '';
+                    mySubjects.forEach(subjKey => {
+                        const det = details[subjKey];
+                        if (!det) return;
+                        const questions = det.questions || [];
+                        const correctKeys = det.correctAnswers || {};
+                        if (!questions.length) return;
+
+                        reviewHtml += '<div style="margin-bottom:24px;">';
+                        reviewHtml += '<h3 style="font-size:16px; margin:0 0 10px; color:#333; border-bottom:2px solid #c61036; padding-bottom:6px;">' + (_subjNames[subjKey] || subjKey) + '</h3>';
+                        reviewHtml += '<table style="width:100%; border-collapse:collapse; font-size:13px;">';
+                        reviewHtml += '<tr><th style="padding:8px;border:1px solid #ddd;background:#f5f5f5;width:40px;">№</th>';
+                        reviewHtml += '<th style="padding:8px;border:1px solid #ddd;background:#f5f5f5;">Ваша відповідь</th>';
+                        reviewHtml += '<th style="padding:8px;border:1px solid #ddd;background:#f5f5f5;">Правильна відповідь</th></tr>';
+
+                        questions.forEach(q => {
+                            // For cloze questions, check each sub-answer
+                            if (q.type === 'cloze' && q.subIds && q.subIds.length) {
+                                q.subIds.forEach(sid => {
+                                    const prefixedSid = subjKey + '_' + sid;
+                                    const userAns = scoringAnswers[prefixedSid] || scoringAnswers['sel-' + prefixedSid];
+                                    const correctAns = correctKeys['sel-' + sid] || correctKeys[sid];
+                                    const isCorrect = isEquivalentAnswer(userAns, correctAns);
+                                    const userDisplay = userAns != null ? toUkrLetter(userAns, subjKey) : '<span style="color:#999;">—</span>';
+                                    const correctDisplay = toUkrLetter(correctAns, subjKey);
+                                    const bgColor = userAns == null ? '#fff' : (isCorrect ? '#e8f5e9' : '#ffebee');
+                                    const userColor = userAns == null ? '#999' : (isCorrect ? '#2e7d32' : '#c62828');
+                                    reviewHtml += '<tr style="background:' + bgColor + ';">';
+                                    reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;text-align:center;color:#999;">' + sid + '</td>';
+                                    reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;font-weight:700;color:' + userColor + ';">' + userDisplay + '</td>';
+                                    reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;font-weight:700;color:#2e7d32;">' + correctDisplay + '</td>';
+                                    reviewHtml += '</tr>';
+                                });
+                                return;
+                            }
+
+                            const prefixedId = subjKey + '_' + q.id;
+                            const userAns = scoringAnswers[prefixedId];
+                            const correctAns = correctKeys[q.id];
+                            const isCorrect = isEquivalentAnswer(userAns, correctAns);
+                            const userDisplay = userAns != null ? toUkrLetter(userAns, subjKey) : '<span style="color:#999;">—</span>';
+                            const correctDisplay = toUkrLetter(correctAns, subjKey);
+                            const bgColor = userAns == null ? '#fff' : (isCorrect ? '#e8f5e9' : '#ffebee');
+                            const userColor = userAns == null ? '#999' : (isCorrect ? '#2e7d32' : '#c62828');
+
+                            reviewHtml += '<tr style="background:' + bgColor + ';">';
+                            reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;text-align:center;color:#999;">' + q.num + '</td>';
+                            reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;font-weight:700;color:' + userColor + ';">' + userDisplay + '</td>';
+                            reviewHtml += '<td style="padding:6px 8px;border:1px solid #ddd;font-weight:700;color:#2e7d32;">' + correctDisplay + '</td>';
+                            reviewHtml += '</tr>';
+                        });
+
+                        reviewHtml += '</table></div>';
+                    });
+
+                    [
+                        'nmtName', 'nmtCurrentBlock', 'nmtTimeLimit', 'nmtAnswersData', 'nmtAnswers',
+                        'nmtBookmarks', 'nmtStrikeCount', 'nmtFailed', 'nmtSubject4', 'nmtSubject4Name',
+                        'nmtElectiveVariantId', 'nmtSessionId'
+                    ].forEach(key => localStorage.removeItem(key));
+
+                    let tableRowsHtml = '';
+                    [_s1, _s2, _s3, subj4Id].forEach(sid => {
+                        let sName = _subjNames[sid] || sid;
+                        let sScore = sc[sid] ? sc[sid].score : 0;
+                        let sAnswered = answeredCounts[sid] || 0;
+                        let sTotal = (sid === subj4Id) ? totalSubj4Questions : getSubjectTotalQuestions(sid);
+
+                        tableRowsHtml += `
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">${sName}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd;">${sAnswered} з ${sTotal}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background: #a8f0a8; font-weight: bold; color: #333; text-align: center;">${sScore}</td>
+                            </tr>
+                        `;
+                    });
+
+                    document.body.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; border-bottom: 1px solid #e0e0e0; background: white;">
+                    <div style="display: flex; align-items: center; font-weight: bold; font-size: 16px; color: #555;">
+                        <img src="https://zno.osvita.ua/doc/i/favicons/apple-touch-icon.png" style="height: 35px; margin-right: 10px;"> Симуляція НМТ-2026 від сайту Освіта.ua
+                    </div>
+                    <div style="position: relative; cursor: pointer; font-weight: 600; font-size: 14px; color: #333; display: flex; align-items: center; gap: 5px;" 
+                         onclick="document.getElementById('final-logout-menu').style.display = document.getElementById('final-logout-menu').style.display === 'block' ? 'none' : 'block';">
+                        <span>${studentName}</span> ▼
+                        <div id="final-logout-menu" style="display: none; position: absolute; top: 100%; right: 0; background: white; border: 1px solid #ccc; padding: 10px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 4px; margin-top: 10px; z-index: 100;" 
+                             onmouseover="this.style.color='var(--primary-red)'; this.style.background='#f5f5f5';" 
+                             onmouseout="this.style.color='#333'; this.style.background='white';" 
+                             onclick="window.userLogout(); event.stopPropagation();">
+                            Вийти
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; max-width: 900px; margin: 40px auto; font-family: sans-serif; border: 1px solid #ccc; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 4px; margin-bottom: 20px; font-size: 18px; font-weight: bold; color: #333;">
+                        ${headerText}
+                    </div>
+                    
+                    <div style="border: 2px solid #c61036; padding: 15px; display: flex; align-items: flex-start; gap: 15px;">
+                        <div style="background:#c61036;color:white;border-radius:50%;min-width:24px;height:24px;display:flex;justify-content:center;align-items:center;font-weight:bold;margin-top:10px;">!</div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <tr>
+                                <th style="padding: 10px; border: 1px solid #ddd; background: #fff; text-align: left;">Назва навчального предмета</th>
+                                <th style="padding: 10px; border: 1px solid #ddd; background: #fff; text-align: left;">Надано та збережено відповідей</th>
+                                <th style="padding: 10px; border: 1px solid #ddd; background: #fff; text-align: left;">Тестовий бал</th>
+                            </tr>
+                            ${tableRowsHtml}
+                        </table>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; font-weight: bold; color: var(--primary-red); font-size: 16px;">
+                        Не забудьте вийти з системи, клікнувши на своє ПІБ у правому верхньому куті!
+                    </div>
+
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                        <h2 style="font-size: 18px; margin: 0 0 16px; color: #333;">📋 Перегляд відповідей</h2>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 16px;">
+                            <span style="display:inline-block;width:14px;height:14px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:2px;vertical-align:middle;"></span> Правильно &nbsp;
+                            <span style="display:inline-block;width:14px;height:14px;background:#ffebee;border:1px solid #ffcdd2;border-radius:2px;vertical-align:middle;"></span> Неправильно &nbsp;
+                            <span style="display:inline-block;width:14px;height:14px;background:#fff;border:1px solid #ddd;border-radius:2px;vertical-align:middle;"></span> Не відповіли
+                        </p>
+                        ${reviewHtml}
+                    </div>
+</div>
+                    <div style="text-align: center; margin-top: 30px; padding-top: 25px; border-top: 1px solid #eee;">
+        
+						<div style="margin-bottom: 15px;">
+							<a href="https://osvita.ua/consultations/konkurs-ball/" target="_blank" 
+							   style="display: inline-block; background: var(--primary-red); color: white; text-decoration: none; padding: 14px 30px; border-radius: 4px; font-weight: 700; font-size: 16px; transition: 0.2s; box-shadow: 0 3px 6px rgba(0,0,0,0.15);"
+							   onmouseover="this.style.background='var(--hover-red)'" 
+							   onmouseout="this.style.background='var(--primary-red)'">
+							   Розрахунок бала за шкалою 100-200 ➔
+							</a>
+						</div>
+						
+						<a href="https://zno.osvita.ua" target="_blank" 
+						   style="display: inline-block; background: white; border: 1px solid var(--primary-red); color: var(--primary-red); text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; font-size: 14px; margin: 10px; transition: 0.2s;"
+						   onmouseover="this.style.background='#fdf0f2'" 
+						   onmouseout="this.style.background='white'">
+						   Більше тестів на ЗНО-ОНЛАЙН
+						</a>
+						
+						<a href="https://t.me/vstuposvita" target="_blank" 
+						   style="display: inline-block; background: white; border: 1px solid var(--primary-red); color: var(--primary-red); text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; font-size: 14px; margin: 10px; transition: 0.2s;"
+						   onmouseover="this.style.background='#fdf0f2'" 
+						   onmouseout="this.style.background='white'">
+						   Telegram-канал Вступ.ОСВІТА.UA
+						</a>
+					</div>
+					<p style="margin-top: 30px; padding-bottom: 20px; font-size: 11px; color:#888; text-align: center; width: 100%; display: inline-block;">© Освіта.ua, 2026.<br>Сервіс є об'єктом інтелектуальної власності. Копіювання, відтворення або використання елементів сервісу без попереднього дозволу заборонено.</p>
+            `;
+                } catch (err) {
+                    console.error('[calculateAndShowResults] Scoring API error:', err);
+                    document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%;">Помилка зв'язку з сервером при підрахунку балів.</h1>`;
+                }
+            };
+
+            window.openRulesModal = function () {
+                document.getElementById('rules-confirm-modal').style.display = 'flex';
+            }
+
+            window.closeRulesModal = function () {
+                document.getElementById('rules-confirm-modal').style.display = 'none';
+            }
+
+            window.confirmRulesAccept = function () {
+                document.getElementById('rules-confirm-modal').style.display = 'none';
+                window.acceptRules();
+            }
+
+        } // ← закриття initTest()
+
+        loadGroup();
+
+    </script>
+
+    <div id="rules-confirm-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center;">
+        <div
+            style="background: white; padding: 30px; border-radius: 8px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+
+            <div style="font-size: 16px; margin-bottom: 25px;">
+                Чи дійсно Ви погоджуєтеся з Правилами проходження тесту?
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button
+                    style="background: var(--primary-red); color: white; border: none; padding: 10px 25px; font-size: 15px; cursor: pointer; border-radius: 4px; font-weight: bold;"
+                    onclick="document.getElementById('rules-confirm-modal').style.display='none'; window.acceptRules();">Так</button>
+                <button class="btn-outline" style="cursor: pointer;" onclick="closeRulesModal()">Ні</button>
+            </div>
+
+        </div>
+    </div>
+    <div id="terms-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center;">
+
+        <div
+            style="background: white; padding: 30px; border-radius: 8px; max-width: 750px; width: 90%; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative;">
+
+            <div style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #888; line-height: 1;"
+                onclick="document.getElementById('terms-modal').style.display='none'">&times;</div>
+
+            <h2
+                style="font-size: 22px; margin-top: 0; margin-bottom: 20px; text-align: center; color: var(--text-dark);">
+                Публічна оферта та угода користувача</h2>
+
+            <div
+                style="font-size: 15px; line-height: 1.6; color: #444; overflow-y: auto; padding-right: 15px; text-align: left;">
+                <p>Цей документ є угодою між розробниками симулятора «Пробний національний мультипредметний тест 2026
+                    року» (далі — Сервіс) і будь-якою фізичною особою (далі — Користувач), яка використовує цей Сервіс.
+                </p>
+
+                <b style="color: var(--text-dark); display: block; margin-top: 15px;">1. Загальні положення</b>
+                <ul style="margin-top: 5px; padding-left: 20px;">
+                    <li>Сервіс є інтерактивним інструментом для ознайомлення з процедурою проведення Національного
+                        мультипредметного тесту (НМТ).</li>
+                    <li>Процедура тестування в Сервісі базується на затверджених правилах проведення НМТ у 2026 році.
+                    </li>
+                    <li>У тестах використані завдання демонстраційних варіантів НМТ 2026 року, опубліковані Українським
+                        центром оцінювання якості освіти (УЦОЯО).</li>
+                </ul>
+
+                <b style="color: var(--text-dark); display: block; margin-top: 15px;">2. Відмова від
+                    відповідальності</b>
+                <ul style="margin-top: 5px; padding-left: 20px;">
+                    <li><b>Інтерфейс.</b> Сервіс створений на основі демонстрацій інтерфейсу, зроблених Українським
+                        центром оцінювання якості освіти в попередні роки. Користувач усвідомлює та погоджується, що
+                        візуальний інтерфейс, розташування елементів керування та технічні особливості реальної
+                        програми, яка використовуватиметься в тимчасових екзаменаційних центрах у 2026 році, можуть
+                        відрізнятися від цього Сервісу.</li>
+                    <li><b>Результати.</b> Результати, отримані в Сервісі, мають виключно ознайомчий характер і не
+                        можуть розцінюватися як прогноз або гарантія отримання аналогічних балів під час реального НМТ.
+                    </li>
+                    <li><b>Зміни.</b> Розробники не несуть відповідальності за будь-які зміни в регламенті, процедурі,
+                        програмному забезпеченні, що буде використане під час проведення національного мультипредметного
+                        тесту у 2026 році.</li>
+                </ul>
+
+                <b style="color: var(--text-dark); display: block; margin-top: 15px;">3. Політика конфіденційності</b>
+                <ul style="margin-top: 5px; padding-left: 20px;">
+                    <li><b>Збір даних.</b> Розробники дотримуються принципу повної анонімності. Сервіс не збирає та не
+                        зберігає жодних персональних даних Користувача (прізвище, ім'я, номер телефону, e-mail або інші
+                        реєстраційні дані).</li>
+                    <li><b>Збереження прогресу.</b> Оскільки реєстрація відсутня, результати тестування доступні лише
+                        протягом поточної сесії в браузері Користувача. Після закриття сторінки дані про проходження
+                        тесту видаляються автоматично.</li>
+                </ul>
+
+                <b style="color: var(--text-dark); display: block; margin-top: 15px;">4. Згода Користувача</b>
+                <p style="margin-bottom: 5px;">Використовуючи цей Сервіс, ви підтверджуєте, що:</p>
+                <ol style="margin-top: 5px; padding-left: 20px;">
+                    <li>Ознайомлені з технічними характеристиками Сервісу.</li>
+                    <li>Розумієте потенційну відмінність інтерфейсу Сервісу від офіційного програмного забезпечення 2026
+                        року.</li>
+                    <li>Не маєте претензій до розробників у разі невідповідності функціоналу Сервісу очікуванням або
+                        змінам у процедурі проведення НМТ.</li>
+                </ol>
+
+                <p style="margin-top: 30px; text-align: center;">
+                    У разі виявлення технічних помилок у роботі Сервісу, напишіть, будь ласка, електронний лист за
+                    адресою
+                    <a href="/cdn-cgi/l/email-protection#a6dcc8c988c9c8cacfc8c3e6c9d5d0cfd2c788d3c7"
+                        style="color: var(--primary-red); text-decoration: none; font-weight: 600;"><span
+                            class="__cf_email__"
+                            data-cfemail="7c061213521312101512193c130f0a15081d52091d">[email&#160;protected]</span></a>
+                    або повідомте в Telegram
+                    <a href="https://t.me/khoroleets" target="_blank"
+                        style="color: var(--primary-red); text-decoration: none; font-weight: 600;">@khoroleets</a>.
+                </p>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
+                <button class="big-btn" style="padding: 10px 30px; font-size: 16px;"
+                    onclick="document.getElementById('terms-modal').style.display='none'">Повернутися назад</button>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function getQObjFromInput(inputId) {
+            let match = inputId.match(/^(?:dt-|tt-)?input\d?-q(.*)$/);
+            return match ? (typeof qData !== 'undefined' ? qData : []).find(q => q.id === match[1]) : null;
+        }
+
+        function getStrictPattern(inputId) {
+            let qObj = getQObjFromInput(inputId);
+            if (!qObj) return null;
+            if (qObj.type === 'triple_text') {
+                if (qObj.subj === 'hist' || qObj.subj === 'geo') return /^[1-7]$/;
+                if (qObj.subj === 'bio') return /^[1-3]$/;
+            }
+            if (qObj.type === 'double_text' && qObj.subj === 'bio') {
+                return /^[1-3]$/;
+            }
+            return null;
+        }
+
+        function sanitizeStrictValue(inputId, value) {
+            let qObj = getQObjFromInput(inputId);
+            if (!qObj) return value;
+            if (qObj.type === 'triple_text') {
+                if (qObj.subj === 'hist' || qObj.subj === 'geo') return value.replace(/[^1-7]/g, '').substring(0, 1);
+                if (qObj.subj === 'bio') return value.replace(/[^1-3]/g, '').substring(0, 1);
+            }
+            if (qObj.type === 'double_text' && qObj.subj === 'bio') {
+                return value.replace(/[^1-3]/g, '').substring(0, 1);
+            }
+            return value;
+        }
+
+        document.addEventListener('input', function (e) {
+            if (e.target.classList.contains('short-answer-input')) {
+                const sanitizedValue = sanitizeStrictValue(e.target.id, e.target.value);
+
+                if (e.target.value !== sanitizedValue) {
+                    e.target.value = sanitizedValue;
+                }
+            }
+        }, true);
+
+    </script>
+
+
+</body>
+
+</html>
