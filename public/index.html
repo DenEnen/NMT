@@ -1740,10 +1740,11 @@
             // Inject the variant-level subj onto every question object so that
             // slide/grid rendering (which reads q.subj) works correctly — the API
             // only sets subj at the variant level, not on individual questions.
-            function tagSubj(questions, subj) {
-                return (questions || []).map(q => {
-                    const newQ = Object.assign({}, q, { subj: subj });
-                    // Ensure unique ID across the entire test session
+			function tagSubj(questions, subj, variantId) {
+					return (questions || []).map(q => {
+			            const newQ = Object.assign({}, q, { subj: subj, _variantId: variantId || null });
+		
+			// Ensure unique ID across the entire test session
                     const prefix = subj + '_';
                     
                     if (newQ.text && newQ.subIds) {
@@ -1772,10 +1773,10 @@
                 ...tagSubj(group.subj2 && group.subj2.questions, group.subj2 && group.subj2.subj),
                 ...tagSubj(group.subj3 && group.subj3.questions, group.subj3 && group.subj3.subj),
             ];
-            (group.electiveOptions || []).forEach(function (opt) {
-                qData = qData.concat(tagSubj(opt.questions, opt.subj));
+			(group.electiveOptions || []).forEach(function (opt) {
+                // Pass variant ID so slides/btns can be filtered to show only the chosen elective.
+                qData = qData.concat(tagSubj(opt.questions, opt.subj, opt.id));
             });
-
             if (group.name) document.title = group.name;
 
             if (loadingEl) loadingEl.style.display = 'none';
@@ -1958,16 +1959,18 @@
             let lastTypePerSubj = {};
 
             qData.forEach(q => {
-                let btn = document.createElement('div');
+				let btn = document.createElement('div');
                 btn.className = `grid-btn subj-${q.subj}`;
                 btn.id = 'nav-btn-' + q.id;
                 btn.textContent = q.num;
+                if (q._variantId) btn.dataset.variantId = String(q._variantId);
                 btn.onclick = () => window.showQuestion(q.id);
                 grid.appendChild(btn);
 
-                let slide = document.createElement('div');
+				let slide = document.createElement('div');
                 slide.className = `question-slide subj-${q.subj}`;
                 slide.id = 'slide-' + q.id;
+                if (q._variantId) slide.dataset.variantId = String(q._variantId);
 
                 let instrHtml = "";
                 if (lastTypePerSubj[q.subj] !== q.type) {
@@ -2045,7 +2048,7 @@
                     <b>2.</b> <input type="text" id="tt-input2-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px; text-align: center;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
                     <b>3.</b> <input type="text" id="tt-input3-q${q.id}" class="short-answer-input" style="margin-bottom: 0; width: 60px; text-align: center;" placeholder="" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">
                 </div>`;
-                } else {
+				} else if (q.type !== 'cloze') {
                     contentHtml += `<input type="text" id="input-q${q.id}" class="short-answer-input" placeholder="Введіть число" autocomplete="off" oninput="window.sanitizeInput(this); window.enableSave('${q.id}')">`;
                 }
 
@@ -2672,13 +2675,20 @@
                     if (t) t.classList.add('active');
                 }
 
+				var _chosenElectiveId = localStorage.getItem('nmtElectiveVariantId');
                 document.querySelectorAll('.question-slide').forEach(s => {
-                    s.style.display = s.classList.contains('subj-' + subjId) ? 'block' : 'none';
+                    var _subjMatch = s.classList.contains('subj-' + subjId);
+                    var _vid = s.dataset.variantId;
+                    // Only show elective slides belonging to the chosen variant
+                    var _show = _subjMatch && (!_vid || !_chosenElectiveId || _vid === String(_chosenElectiveId));
+                    s.style.display = _show ? 'block' : 'none';
                 });
                 document.querySelectorAll('.grid-btn').forEach(b => {
-                    b.style.display = b.classList.contains('subj-' + subjId) ? '' : 'none';
+                    var _subjMatch = b.classList.contains('subj-' + subjId);
+                    var _vid = b.dataset.variantId;
+                    var _show = _subjMatch && (!_vid || !_chosenElectiveId || _vid === String(_chosenElectiveId));
+                    b.style.display = _show ? '' : 'none';
                 });
-
                 document.getElementById('main-subject-title').textContent = getSubjectTitleById(subjId);
 
                 let firstQ = qData.find(q => q.subj === subjId);
