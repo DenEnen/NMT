@@ -1745,6 +1745,18 @@
                     const newQ = Object.assign({}, q, { subj: subj });
                     // Ensure unique ID across the entire test session
                     const prefix = subj + '_';
+                    
+                    if (newQ.text && newQ.subIds) {
+                        newQ.subIds.forEach(sid => {
+                            let reId = new RegExp(`id="sel-${sid}"`, 'g');
+                            newQ.text = newQ.text.replace(reId, `id="sel-${prefix}${sid}"`);
+                            let reSq = new RegExp(`'${sid}'`, 'g');
+                            newQ.text = newQ.text.replace(reSq, `'${prefix}${sid}'`);
+                            let reDq = new RegExp(`"${sid}"`, 'g');
+                            newQ.text = newQ.text.replace(reDq, `"${prefix}${sid}"`);
+                        });
+                    }
+
                     newQ.id = prefix + q.id;
                     if (newQ.subIds) {
                         newQ.subIds = newQ.subIds.map(sid => prefix + sid);
