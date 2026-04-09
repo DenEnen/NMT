@@ -1969,7 +1969,7 @@
 				let btn = document.createElement('div');
                 btn.className = `grid-btn subj-${q.subj}`;
                 btn.id = 'nav-btn-' + q.id;
-                btn.textContent = q.num;
+                btn.textContent = q.numRange || q.num;
                 if (q._variantId) btn.dataset.variantId = String(q._variantId);
                 btn.onclick = () => window.showQuestion(q.id);
                 grid.appendChild(btn);
@@ -2012,7 +2012,7 @@
                 }
 
                 let contentHtml = `${instrHtml}
-                               <div class="question-number" style="font-size: 20px; color: #333; font-weight: bold; margin-bottom: 10px;">Завдання ${q.num}</div>
+                               <div class="question-number" style="font-size: 20px; color: #333; font-weight: bold; margin-bottom: 10px;">Завдання ${q.numRange || q.num}</div>
                                <div class="question-text">${q.text || ''}${qImagesHtml}</div>`;
 
                 if (q.type === 'radio') {
